@@ -1,0 +1,16 @@
+{
+  "name": "cc-mplace",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "vitest run",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "devDependencies": {
+    "ajv": "^8.20.0",
+    "ajv-formats": "^3.0.1",
+    "prettier": "^3.8.3",
+    "vitest": "^4.1.7"
+  }
+}
