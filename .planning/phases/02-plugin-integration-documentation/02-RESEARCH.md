@@ -298,12 +298,10 @@ claude plugin list
 | A2 | The cc-websearch repo is publicly accessible at `https://github.com/Djarvur/cc-websearch.git` | Code Examples | If repo is private, plugin install fails for all users |
 | A3 | The `displayName` field in plugin.json is appropriate to carry over to the marketplace entry | Code Examples | If displayName should differ from plugin.json, D-01 conflicts; but D-01 says "mirror exactly" |
 
-## Open Questions
+## Open Questions (RESOLVED)
 
-1. **Is the cc-websearch repository publicly accessible?**
-   - What we know: The local copy exists at `/Users/nil/DiskD/W/Djarvur/cc-websearch/`. The GitHub URL `https://github.com/Djarvur/cc-websearch.git` is assumed to be public.
-   - What's unclear: Whether the repo is published publicly on GitHub or still private.
-   - Recommendation: Verify by running `git -C /Users/nil/DiskD/W/Djarvur/cc-websearch remote -v` and checking if `git ls-remote https://github.com/Djarvur/cc-websearch.git` succeeds. If the repo is private, the marketplace entry needs `GITHUB_TOKEN` documentation or the repo must be made public first.
+1. **Is the cc-websearch repository publicly accessible?** (RESOLVED: YES)
+   - Verified via `git ls-remote https://github.com/Djarvur/cc-websearch.git` — returns refs successfully. Repo is public. PLUG-02 and MIDX-04 are unblocked.
 
 ## Environment Availability
 
