@@ -20,6 +20,7 @@ The primary risks are: (1) a known third-party marketplace registration bug (Git
 The stack is deliberately minimal. Claude Code's native marketplace system eliminates the need for custom infrastructure. The only tooling beyond the JSON index itself is CI validation.
 
 **Core technologies:**
+
 - **Claude Code native marketplace format** (`.claude-plugin/marketplace.json`) -- zero custom parsing, CLI handles everything
 - **GitHub Actions** -- CI validation on PRs, runs `claude plugin validate .`
 - **AJV 8.20.0** -- validates `marketplace.json` against the official JSON Schema (if custom schema checks beyond `claude plugin validate` are needed)
@@ -34,6 +35,7 @@ The stack is deliberately minimal. Claude Code's native marketplace system elimi
 The feature landscape is narrow and well-defined. Most "features" are actually properties of the JSON index, not code.
 
 **Must have (table stakes):**
+
 - Valid `marketplace.json` with correct schema (name, owner, plugins array with name/source)
 - At least one working plugin entry (cc-websearch)
 - Plugin name uniqueness (enforced by `claude plugin validate`)
@@ -42,11 +44,13 @@ The feature landscape is narrow and well-defined. Most "features" are actually p
 - CONTRIBUTING.md with PR submission guide
 
 **Should have (competitive):**
+
 - Per-plugin version pinning via SHA -- deterministic installs, matches official marketplace practice
 - Category/tag taxonomy -- enables filtered discovery when catalog grows
 - PR template -- standardizes submissions
 
 **Defer (v2+):**
+
 - Web UI / browsing website -- existing aggregators (claudepluginhub.com, claudemarketplaces.com, skills.sh) already fill this niche
 - Open third-party submissions -- Djarvur-only at launch; the architecture supports external sources later without structural changes
 - Release channels (stable/latest) -- requires maintaining multiple marketplace files
@@ -57,6 +61,7 @@ The feature landscape is narrow and well-defined. Most "features" are actually p
 The architecture is a single Git repository following the "marketplace-as-git-repo" pattern. Claude Code's CLI clones the repo, reads `marketplace.json`, and resolves plugin sources. For colocated plugins (Djarvur-authored), sources are relative paths like `./plugins/cc-websearch` that are copied from the already-cloned marketplace repo. For future third-party plugins, sources reference external GitHub repos with optional SHA pinning. The CI layer validates PRs before merge.
 
 **Major components:**
+
 1. **`.claude-plugin/marketplace.json`** -- the master index listing all plugins with metadata and source references; the single most important file in the project
 2. **`plugins/` directory** -- colocated Djarvur plugin code, each with its own `.claude-plugin/plugin.json`, skills, and scripts
 3. **`.github/workflows/validate.yml`** -- GitHub Actions CI that runs `claude plugin validate .` on every PR, catching schema errors, duplicate names, missing sources, and path traversal
@@ -75,6 +80,7 @@ The architecture is a single Git repository following the "marketplace-as-git-re
 Based on combined research, the project breaks into four phases with clear dependency ordering.
 
 ### Phase 1: Minimal Working Marketplace
+
 **Rationale:** Everything depends on a valid `marketplace.json` that Claude Code can consume. This must exist before CI, PR flows, or additional plugins mean anything.
 **Delivers:** A marketplace users can add and install cc-websearch from.
 **Addresses:** marketplace.json schema, first plugin entry, GitHub hosting, README documentation.
@@ -82,6 +88,7 @@ Based on combined research, the project breaks into four phases with clear depen
 **Research flag:** Standard patterns. The official marketplace repo and documentation provide exact examples to follow. No deep research needed.
 
 ### Phase 2: CI Validation Pipeline
+
 **Rationale:** Before accepting any contributions (even from other Djarvur team members), automated validation must catch broken entries. CI is the quality gate that makes the PR-based workflow safe.
 **Delivers:** Automated validation on every PR: schema check, duplicate name detection, source path existence, `claude plugin validate`.
 **Uses:** GitHub Actions, Vitest for custom test cases, AJV for schema validation.
@@ -90,12 +97,14 @@ Based on combined research, the project breaks into four phases with clear depen
 **Research flag:** Standard patterns. `claude plugin validate .` is a documented command. GitHub Actions workflow is straightforward.
 
 ### Phase 3: Contributor Experience
+
 **Rationale:** With CI protecting the registry, the project can safely accept external PRs. This phase focuses on making contribution frictionless.
 **Delivers:** CONTRIBUTING.md, PR template, category/tag taxonomy for organized browsing.
 **Addresses:** PR-based publishing flow, contributor documentation.
 **Research flag:** May need research. The CONTRIBUTING.md format and PR template should reference how other curated registries (Homebrew taps, npm scoped packages) handle submissions.
 
 ### Phase 4: Multi-Author Expansion
+
 **Rationale:** Only after the Djarvur-only phase is proven, CI is solid, and contributor docs exist should the marketplace accept third-party plugins.
 **Delivers:** External source support (`github`/`url` sources), SHA pinning enforcement, hook scanning in CI.
 **Uses:** External source pattern from architecture research (Pattern 3: `{"source": "github", "repo": "owner/repo", "sha": "..."}`).
@@ -112,22 +121,24 @@ Based on combined research, the project breaks into four phases with clear depen
 ### Research Flags
 
 Phases likely needing deeper research during planning:
+
 - **Phase 4:** Security scanning for plugin hooks is a specialized domain. Need to research PromptArmor's findings in detail and determine which patterns to flag. Automated SHA bumping workflows need investigation.
 - **Phase 1 (partial):** Must verify that GitHub issue #38670 is resolved before launch. This requires testing the actual third-party marketplace flow with a current Claude Code build.
 
 Phases with standard patterns (skip research-phase):
+
 - **Phase 1:** Well-documented. The official `anthropics/claude-plugins-official` repo provides the exact pattern to follow. Claude Code's marketplace docs are comprehensive.
 - **Phase 2:** `claude plugin validate .` is a documented CLI command. GitHub Actions setup is standard.
 - **Phase 3:** CONTRIBUTING.md and PR templates are well-established patterns. No novel research needed.
 
 ## Confidence Assessment
 
-| Area | Confidence | Notes |
-|------|------------|-------|
-| Stack | HIGH | Official Claude Code docs prescribe the exact format. Reference implementation (`claude-plugins-official`) confirms. No ambiguity. |
-| Features | HIGH | Feature landscape is narrow -- most "features" are JSON fields, not code. Competitor analysis covers the full landscape. Anti-features well-documented. |
-| Architecture | HIGH | Architecture is dictated by Claude Code's CLI expectations. Component boundaries are clear. Data flows documented in official docs. |
-| Pitfalls | HIGH | Sources include official docs, GitHub issues, PromptArmor security research, and Palo Alto Unit 42 analysis. Pitfalls are concrete and actionable. |
+| Area         | Confidence | Notes                                                                                                                                                   |
+| ------------ | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Stack        | HIGH       | Official Claude Code docs prescribe the exact format. Reference implementation (`claude-plugins-official`) confirms. No ambiguity.                      |
+| Features     | HIGH       | Feature landscape is narrow -- most "features" are JSON fields, not code. Competitor analysis covers the full landscape. Anti-features well-documented. |
+| Architecture | HIGH       | Architecture is dictated by Claude Code's CLI expectations. Component boundaries are clear. Data flows documented in official docs.                     |
+| Pitfalls     | HIGH       | Sources include official docs, GitHub issues, PromptArmor security research, and Palo Alto Unit 42 analysis. Pitfalls are concrete and actionable.      |
 
 **Overall confidence:** HIGH
 
@@ -140,22 +151,26 @@ Phases with standard patterns (skip research-phase):
 ## Sources
 
 ### Primary (HIGH confidence)
+
 - Claude Code official marketplace docs: https://code.claude.com/docs/en/plugin-marketplaces -- marketplace.json format, CLI commands, validation
 - Claude Code plugin reference docs: https://code.claude.com/docs/en/plugins-reference -- plugin.json format, component types
 - Official Anthropic marketplace repo: https://github.com/anthropics/claude-plugins-official -- reference implementation with 100+ plugins
 - Official Anthropic community marketplace: https://github.com/anthropics/claude-plugins-community -- SHA pinning patterns, third-party marketplace structure
 
 ### Secondary (MEDIUM confidence)
+
 - PromptArmor security research -- Claude Code plugin attack vectors (hook abuse, settings modification)
 - GitHub issue #38670 -- third-party marketplace registration bug report
 - Palo Alto Unit 42 -- npm supply chain attack patterns applicable to plugin registries
 - Homebrew tap documentation: https://docs.brew.sh/How-to-Create-and-Maintain-a-Tap -- analogous registry pattern
 
 ### Tertiary (LOW confidence)
+
 - ClaudePluginHub: https://www.claudepluginhub.com -- competitor feature analysis
 - claudemarketplaces.com -- competitor feature analysis
 - skills.sh -- third-party plugin directory
 
 ---
-*Research completed: 2026-05-22*
-*Ready for roadmap: yes*
+
+_Research completed: 2026-05-22_
+_Ready for roadmap: yes_

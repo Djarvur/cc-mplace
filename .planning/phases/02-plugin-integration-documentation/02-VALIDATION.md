@@ -15,13 +15,13 @@ created: 2026-05-22
 
 ## Test Infrastructure
 
-| Property | Value |
-|----------|-------|
-| **Framework** | Vitest |
-| **Config file** | `package.json` (`"test": "vitest run"`) |
-| **Quick run command** | `npm test` |
-| **Full suite command** | `npm test` |
-| **Estimated runtime** | ~2 seconds |
+| Property               | Value                                   |
+| ---------------------- | --------------------------------------- |
+| **Framework**          | Vitest                                  |
+| **Config file**        | `package.json` (`"test": "vitest run"`) |
+| **Quick run command**  | `npm test`                              |
+| **Full suite command** | `npm test`                              |
+| **Estimated runtime**  | ~2 seconds                              |
 
 ---
 
@@ -36,13 +36,13 @@ created: 2026-05-22
 
 ## Per-Task Verification Map
 
-| Task ID | Plan | Wave | Requirement | Threat Ref | Secure Behavior | Test Type | Automated Command | File Exists | Status |
-|---------|------|------|-------------|------------|-----------------|-----------|-------------------|-------------|--------|
-| 02-01-01 | 01 | 1 | PLUG-01 | T-02-01 | AJV validates entry against schema | unit | `npm test` | ✅ W0 | ⬜ pending |
-| 02-01-02 | 01 | 1 | PLUG-02, MIDX-04 | — | N/A (manual CLI verification) | manual | `claude plugin marketplace add Djarvur/cc-mplace` | ✅ W0 | ⬜ pending |
-| 02-02-01 | 02 | 1 | DOCS-01 | T-02-03 | N/A (static documentation) | grep-check | `grep -c` assertions | ✅ W0 | ⬜ pending |
+| Task ID  | Plan | Wave | Requirement      | Threat Ref | Secure Behavior                    | Test Type  | Automated Command                                 | File Exists | Status     |
+| -------- | ---- | ---- | ---------------- | ---------- | ---------------------------------- | ---------- | ------------------------------------------------- | ----------- | ---------- |
+| 02-01-01 | 01   | 1    | PLUG-01          | T-02-01    | AJV validates entry against schema | unit       | `npm test`                                        | ✅ W0       | ⬜ pending |
+| 02-01-02 | 01   | 1    | PLUG-02, MIDX-04 | —          | N/A (manual CLI verification)      | manual     | `claude plugin marketplace add Djarvur/cc-mplace` | ✅ W0       | ⬜ pending |
+| 02-02-01 | 02   | 1    | DOCS-01          | T-02-03    | N/A (static documentation)         | grep-check | `grep -c` assertions                              | ✅ W0       | ⬜ pending |
 
-*Status: ⬜ pending · ✅ green · ❌ red · ⚠️ flaky*
+_Status: ⬜ pending · ✅ green · ❌ red · ⚠️ flaky_
 
 ---
 
@@ -50,16 +50,16 @@ created: 2026-05-22
 
 - [x] `tests/marketplace.test.js` — existing Phase 1 tests cover schema validation, will auto-validate new entry
 
-*Existing infrastructure covers all phase requirements.*
+_Existing infrastructure covers all phase requirements._
 
 ---
 
 ## Manual-Only Verifications
 
-| Behavior | Requirement | Why Manual | Test Instructions |
-|----------|-------------|------------|-------------------|
-| `claude plugin marketplace add Djarvur/cc-mplace` succeeds | MIDX-04 | Requires live Claude Code CLI + network access | Run CLI command, verify marketplace registered |
-| `claude plugin install cc-websearch` resolves and installs | PLUG-02 | Requires live Claude Code CLI + GitHub access | Run CLI command, verify plugin installed |
+| Behavior                                                   | Requirement | Why Manual                                     | Test Instructions                              |
+| ---------------------------------------------------------- | ----------- | ---------------------------------------------- | ---------------------------------------------- |
+| `claude plugin marketplace add Djarvur/cc-mplace` succeeds | MIDX-04     | Requires live Claude Code CLI + network access | Run CLI command, verify marketplace registered |
+| `claude plugin install cc-websearch` resolves and installs | PLUG-02     | Requires live Claude Code CLI + GitHub access  | Run CLI command, verify plugin installed       |
 
 ---
 

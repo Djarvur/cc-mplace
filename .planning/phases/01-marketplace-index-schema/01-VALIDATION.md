@@ -15,13 +15,13 @@ created: 2026-05-22
 
 ## Test Infrastructure
 
-| Property | Value |
-|----------|-------|
-| **Framework** | Vitest 4.1.7 |
-| **Config file** | vitest.config.ts (Wave 0 creates) |
-| **Quick run command** | `npx vitest run` |
-| **Full suite command** | `npx vitest run` |
-| **Estimated runtime** | ~3 seconds |
+| Property               | Value                             |
+| ---------------------- | --------------------------------- |
+| **Framework**          | Vitest 4.1.7                      |
+| **Config file**        | vitest.config.ts (Wave 0 creates) |
+| **Quick run command**  | `npx vitest run`                  |
+| **Full suite command** | `npx vitest run`                  |
+| **Estimated runtime**  | ~3 seconds                        |
 
 ---
 
@@ -36,13 +36,13 @@ created: 2026-05-22
 
 ## Per-Task Verification Map
 
-| Task ID | Plan | Wave | Requirement | Threat Ref | Secure Behavior | Test Type | Automated Command | File Exists | Status |
-|---------|------|------|-------------|------------|-----------------|-----------|-------------------|-------------|--------|
-| 01-01-01 | 01 | 1 | MIDX-01 | — | N/A | unit | `npx vitest run` | ❌ W0 | ⬜ pending |
-| 01-01-02 | 01 | 1 | MIDX-02 | — | N/A | unit | `npx vitest run` | ❌ W0 | ⬜ pending |
-| 01-01-03 | 01 | 1 | MIDX-03 | — | N/A | unit | `npx vitest run` | ❌ W0 | ⬜ pending |
+| Task ID  | Plan | Wave | Requirement | Threat Ref | Secure Behavior | Test Type | Automated Command | File Exists | Status     |
+| -------- | ---- | ---- | ----------- | ---------- | --------------- | --------- | ----------------- | ----------- | ---------- |
+| 01-01-01 | 01   | 1    | MIDX-01     | —          | N/A             | unit      | `npx vitest run`  | ❌ W0       | ⬜ pending |
+| 01-01-02 | 01   | 1    | MIDX-02     | —          | N/A             | unit      | `npx vitest run`  | ❌ W0       | ⬜ pending |
+| 01-01-03 | 01   | 1    | MIDX-03     | —          | N/A             | unit      | `npx vitest run`  | ❌ W0       | ⬜ pending |
 
-*Status: ⬜ pending · ✅ green · ❌ red · ⚠️ flaky*
+_Status: ⬜ pending · ✅ green · ❌ red · ⚠️ flaky_
 
 ---
 

@@ -55,13 +55,13 @@ Static registries have no migration layer. JSON is simultaneously schema and dat
 
 ## Technical Debt Acceptable in v1
 
-| Debt | Acceptable? | Why |
-|------|-------------|-----|
-| No schema versioning | NO | Critical for evolution |
-| No hook scanning | OK for Djarvur-only | Trust own plugins |
-| No automated SHA bumps | OK | Manual for small catalog |
-| No CDN cache invalidation | OK | Document the delay |
-| No plugin categorization | OK | Native schema supports tags later |
+| Debt                      | Acceptable?         | Why                               |
+| ------------------------- | ------------------- | --------------------------------- |
+| No schema versioning      | NO                  | Critical for evolution            |
+| No hook scanning          | OK for Djarvur-only | Trust own plugins                 |
+| No automated SHA bumps    | OK                  | Manual for small catalog          |
+| No CDN cache invalidation | OK                  | Document the delay                |
+| No plugin categorization  | OK                  | Native schema supports tags later |
 
 ## Sources
 

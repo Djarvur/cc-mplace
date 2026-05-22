@@ -9,25 +9,25 @@ Claude Code already has a native marketplace system. The registry format is `.cl
 
 ## Stack
 
-| Component | Choice | Version | Rationale |
-|-----------|--------|---------|-----------|
-| Registry format | `.claude-plugin/marketplace.json` | — | Native Claude Code format, zero custom parsing |
-| Schema validation | AJV | 8.20.0 | Validates against published JSON Schema; Zod would require re-implementing schema |
-| CLI validator | `claude plugin validate .` | — | Official tool, checks schema + duplicate names + path traversal |
-| CI platform | GitHub Actions | — | Native to GitHub, PR-based workflow |
-| Testing | Vitest | 4.1.7 | For CI validation tests |
-| Formatting | Prettier | 3.x | Consistent JSON formatting in CI |
-| Hosting | Raw GitHub URL | — | `raw.githubusercontent.com` — zero infrastructure |
+| Component         | Choice                            | Version | Rationale                                                                         |
+| ----------------- | --------------------------------- | ------- | --------------------------------------------------------------------------------- |
+| Registry format   | `.claude-plugin/marketplace.json` | —       | Native Claude Code format, zero custom parsing                                    |
+| Schema validation | AJV                               | 8.20.0  | Validates against published JSON Schema; Zod would require re-implementing schema |
+| CLI validator     | `claude plugin validate .`        | —       | Official tool, checks schema + duplicate names + path traversal                   |
+| CI platform       | GitHub Actions                    | —       | Native to GitHub, PR-based workflow                                               |
+| Testing           | Vitest                            | 4.1.7   | For CI validation tests                                                           |
+| Formatting        | Prettier                          | 3.x     | Consistent JSON formatting in CI                                                  |
+| Hosting           | Raw GitHub URL                    | —       | `raw.githubusercontent.com` — zero infrastructure                                 |
 
 ## What NOT to Use
 
-| Rejected | Why |
-|----------|-----|
+| Rejected                 | Why                                                                   |
+| ------------------------ | --------------------------------------------------------------------- |
 | Custom JSON index format | Claude Code has a native format — reinventing it breaks compatibility |
-| Zod for validation | Marketplace has a published JSON Schema; AJV validates directly |
-| Database / backend | Static registry — CLI handles all dynamic behavior |
-| GitHub Pages | Raw URL is simpler, no build/deploy step |
-| Custom CLI | Claude Code CLI handles install, resolve, update, cache |
+| Zod for validation       | Marketplace has a published JSON Schema; AJV validates directly       |
+| Database / backend       | Static registry — CLI handles all dynamic behavior                    |
+| GitHub Pages             | Raw URL is simpler, no build/deploy step                              |
+| Custom CLI               | Claude Code CLI handles install, resolve, update, cache               |
 
 ## Reference Implementation
 

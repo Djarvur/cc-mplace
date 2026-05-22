@@ -55,14 +55,14 @@ This project creates a third-party marketplace that the CLI can consume. The "bu
 
 ### Component Responsibilities
 
-| Component | Responsibility | Implementation |
-|-----------|---------------|----------------|
-| `marketplace.json` | Master index of all available plugins. Lists name, source, description, category for each plugin. | Static JSON file at `.claude-plugin/marketplace.json` |
-| Plugin directories | Individual plugin code and manifests. Each plugin is self-contained with its own `plugin.json`, skills, scripts. | Directories under `plugins/` or `external_plugins/` |
-| `plugin.json` (per plugin) | Plugin metadata: name, version, description. Authority for component definitions when `strict: true`. | JSON file inside plugin's `.claude-plugin/` directory |
-| CI validation | Validates `marketplace.json` schema, checks for duplicate names, verifies plugin source paths exist, runs `claude plugin validate`. | GitHub Actions workflow |
-| PR review flow | Human review gate for new plugin submissions. Ensures quality before merge to main. | GitHub PR process (manual) |
-| Claude Code CLI | Consumer of the marketplace. Fetches `marketplace.json`, resolves sources, clones plugins into `~/.claude/plugins/cache/`. | External -- already exists in Claude Code |
+| Component                  | Responsibility                                                                                                                      | Implementation                                        |
+| -------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------- |
+| `marketplace.json`         | Master index of all available plugins. Lists name, source, description, category for each plugin.                                   | Static JSON file at `.claude-plugin/marketplace.json` |
+| Plugin directories         | Individual plugin code and manifests. Each plugin is self-contained with its own `plugin.json`, skills, scripts.                    | Directories under `plugins/` or `external_plugins/`   |
+| `plugin.json` (per plugin) | Plugin metadata: name, version, description. Authority for component definitions when `strict: true`.                               | JSON file inside plugin's `.claude-plugin/` directory |
+| CI validation              | Validates `marketplace.json` schema, checks for duplicate names, verifies plugin source paths exist, runs `claude plugin validate`. | GitHub Actions workflow                               |
+| PR review flow             | Human review gate for new plugin submissions. Ensures quality before merge to main.                                                 | GitHub PR process (manual)                            |
+| Claude Code CLI            | Consumer of the marketplace. Fetches `marketplace.json`, resolves sources, clones plugins into `~/.claude/plugins/cache/`.          | External -- already exists in Claude Code             |
 
 ## Recommended Project Structure
 
@@ -105,12 +105,14 @@ cc-mplace/
 **When to use:** This is the only pattern Claude Code supports for marketplaces. There is no API-based or database-backed alternative.
 
 **Trade-offs:**
+
 - Pro: Zero infrastructure, free hosting on GitHub, version history via git, PR-based review flow
 - Pro: The CLI already handles cloning, caching, and updates
 - Con: Index size grows linearly with plugins (the official marketplace has 100+ plugins in a single JSON file with no issues)
 - Con: Updates require a git push (not instant, but fine for a curated registry)
 
 **Example:**
+
 ```json
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
@@ -137,12 +139,14 @@ cc-mplace/
 **When to use:** When the marketplace operator controls the plugin code. This is the Djarvur-only initial phase.
 
 **Trade-offs:**
+
 - Pro: Single repo to manage, no external dependencies, atomic updates
 - Pro: Faster installs (one clone gets everything)
 - Con: Repo size grows with plugin assets (compiled scripts, etc.)
 - Con: Does not scale to third-party submissions (need `github`/`url` sources instead)
 
 **Example:**
+
 ```json
 {
   "name": "cc-websearch",
@@ -160,6 +164,7 @@ cc-mplace/
 **When to use:** When the marketplace accepts third-party plugins or when plugins are maintained independently. This is the pattern for multi-author expansion.
 
 **Trade-offs:**
+
 - Pro: Plugin authors maintain their own code
 - Pro: Marketplace index stays small (just metadata, no code)
 - Con: Two clones per install (marketplace + plugin)
@@ -167,6 +172,7 @@ cc-mplace/
 - Con: Version tracking requires `sha` or `ref` fields
 
 **Example:**
+
 ```json
 {
   "name": "cc-websearch",
@@ -186,6 +192,7 @@ cc-mplace/
 **When to use:** For external (non-colocated) plugins. Ensures that the exact reviewed version is what users install, even if the plugin repo is updated later.
 
 **Trade-offs:**
+
 - Pro: Reproducible installs -- every user gets the same code
 - Pro: Safety -- a compromised plugin repo cannot push malicious updates
 - Con: Requires manual or CI-driven SHA bumps to update plugins
@@ -319,23 +326,25 @@ Maintainer:
 
 ### Internal Boundaries
 
-| Boundary | Communication | Notes |
-|----------|---------------|-------|
-| marketplace.json <-> plugin dirs | Relative path reference | Source paths like `"./plugins/cc-websearch"` |
-| marketplace.json <-> external repos | Git URL reference | Source objects with `repo`, `ref`, `sha` |
-| CI <-> marketplace.json | Schema validation | `claude plugin validate .` checks everything |
-| CLI <-> marketplace.json | HTTP (raw GitHub) or git clone | CLI fetches entire repo or just JSON |
-| CLI <-> plugin dirs | File copy from cloned repo | Relative sources are copied from marketplace clone |
-| CLI <-> external repos | Separate git clone | External sources trigger additional clone |
+| Boundary                            | Communication                  | Notes                                              |
+| ----------------------------------- | ------------------------------ | -------------------------------------------------- |
+| marketplace.json <-> plugin dirs    | Relative path reference        | Source paths like `"./plugins/cc-websearch"`       |
+| marketplace.json <-> external repos | Git URL reference              | Source objects with `repo`, `ref`, `sha`           |
+| CI <-> marketplace.json             | Schema validation              | `claude plugin validate .` checks everything       |
+| CLI <-> marketplace.json            | HTTP (raw GitHub) or git clone | CLI fetches entire repo or just JSON               |
+| CLI <-> plugin dirs                 | File copy from cloned repo     | Relative sources are copied from marketplace clone |
+| CLI <-> external repos              | Separate git clone             | External sources trigger additional clone          |
 
 ## Build Order (Dependency Chain)
 
 The components have a clear dependency order. Here is the recommended build sequence:
 
 ### Phase 1: Minimal Working Marketplace
+
 **Goal:** Users can `claude plugin marketplace add Djarvur/cc-mplace` and install cc-websearch.
 
 Components to build:
+
 1. `.claude-plugin/marketplace.json` with cc-websearch entry
 2. `plugins/cc-websearch/` directory with the plugin code (copied or symlinked from cc-websearch repo)
 3. `README.md` with installation instructions
@@ -346,9 +355,11 @@ Components to build:
 **Validation:** Run `claude plugin marketplace add ./local-path` locally, then `/plugin install cc-websearch@djarvur-marketplace`.
 
 ### Phase 2: CI Validation
+
 **Goal:** PRs are automatically validated. Bad entries cannot merge.
 
 Components to build:
+
 1. `.github/workflows/validate.yml`
 2. Run `claude plugin validate .` on PR
 3. Check marketplace.json schema, duplicate names, source existence
@@ -356,9 +367,11 @@ Components to build:
 **Dependencies:** Phase 1 must exist (CI validates what is already there).
 
 ### Phase 3: PR-Based Publishing Flow
+
 **Goal:** External contributors can submit plugins via PR.
 
 Components to build:
+
 1. CONTRIBUTING.md with submission guidelines
 2. PR template
 3. Enhanced CI: repo existence check for external sources, SHA verification
@@ -366,9 +379,11 @@ Components to build:
 **Dependencies:** Phase 2 must exist (validation must work before accepting PRs).
 
 ### Phase 4: Multi-Author Expansion
+
 **Goal:** Accept third-party plugins with external sources.
 
 Components to build:
+
 1. Update marketplace.json entries to use `{"source": "github", "repo": "..."}` for external plugins
 2. SHA pinning in CI
 3. Automated SHA bump workflow (optional)
@@ -418,12 +433,12 @@ Phase 4 (external sources + multi-author)
 
 ## Scaling Considerations
 
-| Scale | Architecture Adjustments |
-|-------|--------------------------|
-| 1-5 plugins (Djarvur-only) | Single `marketplace.json`, all plugins colocated. Simple and correct. |
-| 5-20 plugins | Still a single JSON. Consider external sources for third-party plugins to keep repo size manageable. |
-| 20-100 plugins | Split into categories via multiple marketplace repos or use tags/categories within the JSON. Consider automated SHA bumping. |
-| 100+ plugins | Consider generating marketplace.json from a database or structured files. Split into multiple marketplace repos by category. |
+| Scale                      | Architecture Adjustments                                                                                                     |
+| -------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| 1-5 plugins (Djarvur-only) | Single `marketplace.json`, all plugins colocated. Simple and correct.                                                        |
+| 5-20 plugins               | Still a single JSON. Consider external sources for third-party plugins to keep repo size manageable.                         |
+| 20-100 plugins             | Split into categories via multiple marketplace repos or use tags/categories within the JSON. Consider automated SHA bumping. |
+| 100+ plugins               | Consider generating marketplace.json from a database or structured files. Split into multiple marketplace repos by category. |
 
 ### Scaling Priorities
 
@@ -434,41 +449,41 @@ Phase 4 (external sources + multi-author)
 
 ### Homebrew Taps
 
-| Aspect | Homebrew Tap | Claude Code Marketplace |
-|--------|-------------|------------------------|
-| Format | Ruby `.rb` formula files | JSON `marketplace.json` |
-| Discovery | `brew tap user/repo` | `/plugin marketplace add owner/repo` |
-| Install | `brew install user/repo/formula` | `/plugin install name@marketplace` |
-| Update | `brew update` (git pull) | `/plugin marketplace update` (git pull) |
-| Validation | `brew audit` | `claude plugin validate` |
-| Structure | `Formula/name.rb`, `Casks/name.rb` | `plugins/name/` with `plugin.json` |
-| Hosting | Any Git repo | Any Git repo |
+| Aspect     | Homebrew Tap                       | Claude Code Marketplace                 |
+| ---------- | ---------------------------------- | --------------------------------------- |
+| Format     | Ruby `.rb` formula files           | JSON `marketplace.json`                 |
+| Discovery  | `brew tap user/repo`               | `/plugin marketplace add owner/repo`    |
+| Install    | `brew install user/repo/formula`   | `/plugin install name@marketplace`      |
+| Update     | `brew update` (git pull)           | `/plugin marketplace update` (git pull) |
+| Validation | `brew audit`                       | `claude plugin validate`                |
+| Structure  | `Formula/name.rb`, `Casks/name.rb` | `plugins/name/` with `plugin.json`      |
+| Hosting    | Any Git repo                       | Any Git repo                            |
 
 **Key similarity:** Both are git-repo-based, zero-infrastructure registries. The tap/marketplace IS the repo.
 **Key difference:** Homebrew uses per-formula files (Ruby), Claude Code uses a single JSON index + plugin directories.
 
 ### VS Code Extensions
 
-| Aspect | VS Code Marketplace | Claude Code Marketplace |
-|--------|--------------------|-----------------------|
-| Format | `package.json` per extension + VSIX packaging | `plugin.json` per plugin + marketplace.json |
-| Discovery | Visual Studio Marketplace (website + API) | CLI-only (`/plugin install`) |
-| Publishing | `vsce publish` to marketplace API | PR to marketplace repo |
-| Hosting | Microsoft's marketplace API servers | GitHub (static) |
-| Validation | Microsoft's review process | CI + human review |
+| Aspect     | VS Code Marketplace                           | Claude Code Marketplace                     |
+| ---------- | --------------------------------------------- | ------------------------------------------- |
+| Format     | `package.json` per extension + VSIX packaging | `plugin.json` per plugin + marketplace.json |
+| Discovery  | Visual Studio Marketplace (website + API)     | CLI-only (`/plugin install`)                |
+| Publishing | `vsce publish` to marketplace API             | PR to marketplace repo                      |
+| Hosting    | Microsoft's marketplace API servers           | GitHub (static)                             |
+| Validation | Microsoft's review process                    | CI + human review                           |
 
 **Key similarity:** Both use a manifest file (`package.json` / `plugin.json`) at the plugin root describing metadata and capabilities.
 **Key difference:** VS Code uses a centralized API service. Claude Code uses static git repos -- no API, no database, no auth.
 
 ### npm Scoped Registries
 
-| Aspect | npm Registry | Claude Code Marketplace |
-|--------|-------------|------------------------|
-| Format | `package.json` per package + CouchDB | `plugin.json` per plugin + marketplace.json |
-| Discovery | `npm search`, registry API | CLI-only |
-| Publishing | `npm publish` to registry API | PR to marketplace repo |
-| Hosting | npm registry servers (CouchDB) | GitHub (static) |
-| Validation | Package validation on publish | CI + human review |
+| Aspect     | npm Registry                         | Claude Code Marketplace                     |
+| ---------- | ------------------------------------ | ------------------------------------------- |
+| Format     | `package.json` per package + CouchDB | `plugin.json` per plugin + marketplace.json |
+| Discovery  | `npm search`, registry API           | CLI-only                                    |
+| Publishing | `npm publish` to registry API        | PR to marketplace repo                      |
+| Hosting    | npm registry servers (CouchDB)       | GitHub (static)                             |
+| Validation | Package validation on publish        | CI + human review                           |
 
 **Key similarity:** Both have per-package manifests with name, version, description.
 **Key difference:** npm uses a live database backend with an HTTP API. Claude Code is fully static -- just files in a git repo.
@@ -477,19 +492,19 @@ Phase 4 (external sources + multi-author)
 
 ### External Services
 
-| Service | Integration Pattern | Notes |
-|---------|---------------------|-------|
-| GitHub | Git hosting for marketplace repo | Primary hosting. Raw URL access for marketplace.json |
-| Claude Code CLI | CLI consumes marketplace.json | Already built. No work needed on marketplace side |
-| GitHub Actions | CI validation on PR | Runs `claude plugin validate`, schema checks |
+| Service         | Integration Pattern              | Notes                                                |
+| --------------- | -------------------------------- | ---------------------------------------------------- |
+| GitHub          | Git hosting for marketplace repo | Primary hosting. Raw URL access for marketplace.json |
+| Claude Code CLI | CLI consumes marketplace.json    | Already built. No work needed on marketplace side    |
+| GitHub Actions  | CI validation on PR              | Runs `claude plugin validate`, schema checks         |
 
 ### Internal Boundaries
 
-| Boundary | Communication | Notes |
-|----------|---------------|-------|
+| Boundary                         | Communication         | Notes                                               |
+| -------------------------------- | --------------------- | --------------------------------------------------- |
 | marketplace.json <-> plugin dirs | Relative path strings | `"./plugins/cc-websearch"` resolved at install time |
-| CI <-> marketplace repo | Checkout + validation | GitHub Actions checks out PR branch, validates |
-| Users <-> marketplace | CLI commands only | Users never interact with the repo directly |
+| CI <-> marketplace repo          | Checkout + validation | GitHub Actions checks out PR branch, validates      |
+| Users <-> marketplace            | CLI commands only     | Users never interact with the repo directly         |
 
 ## Sources
 
@@ -502,5 +517,6 @@ Phase 4 (external sources + multi-author)
 - Homebrew taps overview: https://docs.brew.sh/Taps (HIGH confidence -- official Homebrew docs)
 
 ---
-*Architecture research for: Claude Code plugin marketplace (static registry)*
-*Researched: 2026-05-22*
+
+_Architecture research for: Claude Code plugin marketplace (static registry)_
+_Researched: 2026-05-22_

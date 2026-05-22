@@ -9,16 +9,16 @@ A valid marketplace.json at `.claude-plugin/marketplace.json` passes AJV schema 
 
 ## Architectural Decisions
 
-| Decision | Choice | Rationale |
-|---|---|---|
-| Registry format | `.claude-plugin/marketplace.json` (official Claude Code format) | Zero custom parsing; Claude Code CLI reads this natively |
-| Schema validation | AJV 8.x against official JSON Schema (draft-07) | Published schema at json.schemastore.org; AJV validates directly without re-implementing |
-| Uniqueness enforcement | Custom check in Vitest test (iterate plugins, detect duplicate names) | JSON Schema does not enforce uniqueness; separate pass required |
-| Test framework | Vitest 4.1.7 | Fast, ESM-native, zero-config. Same tests run in CI (Phase 3) |
-| Schema storage | Local copy in `tests/schemas/marketplace.schema.json` | Deterministic validation; no network dependency at test time |
-| Formatting | Prettier 3.x | Consistent JSON formatting; prevents whitespace-only diffs |
-| Marketplace name | `djarvur-plugin-marketplace` (kebab-case) | Schema requires kebab-case for the `name` field; display name goes in `description` |
-| $schema URL | `https://json.schemastore.org/claude-code-marketplace.json` | Working canonical URL for editor autocomplete and AJV validation reference |
+| Decision               | Choice                                                                | Rationale                                                                                |
+| ---------------------- | --------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| Registry format        | `.claude-plugin/marketplace.json` (official Claude Code format)       | Zero custom parsing; Claude Code CLI reads this natively                                 |
+| Schema validation      | AJV 8.x against official JSON Schema (draft-07)                       | Published schema at json.schemastore.org; AJV validates directly without re-implementing |
+| Uniqueness enforcement | Custom check in Vitest test (iterate plugins, detect duplicate names) | JSON Schema does not enforce uniqueness; separate pass required                          |
+| Test framework         | Vitest 4.1.7                                                          | Fast, ESM-native, zero-config. Same tests run in CI (Phase 3)                            |
+| Schema storage         | Local copy in `tests/schemas/marketplace.schema.json`                 | Deterministic validation; no network dependency at test time                             |
+| Formatting             | Prettier 3.x                                                          | Consistent JSON formatting; prevents whitespace-only diffs                               |
+| Marketplace name       | `djarvur-plugin-marketplace` (kebab-case)                             | Schema requires kebab-case for the `name` field; display name goes in `description`      |
+| $schema URL            | `https://json.schemastore.org/claude-code-marketplace.json`           | Working canonical URL for editor autocomplete and AJV validation reference               |
 
 ## Stack Touched in Phase 1
 

@@ -45,7 +45,9 @@ it("each plugin entry has name and source", () => {
   // Guard: ensure test exercises its assertions when plugins are added
   if (marketplace.plugins.length === 0) {
     // Phase 1: empty marketplace is acceptable, but log a warning
-    console.warn("MIDX-02: plugins array is empty -- field checks not exercised");
+    console.warn(
+      "MIDX-02: plugins array is empty -- field checks not exercised"
+    );
     return;
   }
   for (const plugin of marketplace.plugins) {
@@ -63,8 +65,8 @@ Alternatively, add a dedicated test with a synthetic malformed plugin to prove t
 ```javascript
 it("rejects plugin entries without name or source", () => {
   const badPlugins = [
-    { source: { source: "url", url: "https://example.com" } },  // missing name
-    { name: "test-plugin" },  // missing source
+    { source: { source: "url", url: "https://example.com" } }, // missing name
+    { name: "test-plugin" }, // missing source
   ];
   for (const plugin of badPlugins) {
     const valid = validate({ ...marketplace, plugins: [plugin] });
@@ -88,6 +90,7 @@ it("rejects plugin entries without name or source", () => {
 ```
 
 Or create a `.prettierignore`:
+
 ```
 .planning/
 CLAUDE.md
@@ -99,9 +102,12 @@ CLAUDE.md
 **Issue:** The test `expect(plugin.source).toBeDefined()` only asserts that `source` is not `undefined`. Per the official schema (line 1770-1890 of marketplace.schema.json), `source` must be one of: a relative path string, an npm object, a url object, a github object, or a git-subdir object. A value of `null`, `0`, `false`, or `{}` would pass this test. The schema validation test (test 1) would catch this for the actual marketplace.json, but the MIDX-02 test gives a misleading sense of coverage.
 
 **Fix:** Strengthen the assertion to check type:
+
 ```javascript
 expect(plugin).toHaveProperty("source");
-expect(typeof plugin.source === "string" || typeof plugin.source === "object").toBe(true);
+expect(
+  typeof plugin.source === "string" || typeof plugin.source === "object"
+).toBe(true);
 expect(plugin.source).not.toBeNull();
 ```
 
@@ -113,10 +119,13 @@ expect(plugin.source).not.toBeNull();
 **Issue:** The `ajv` and `schema` variables are assigned in `beforeAll` but never referenced outside it. Only `validate` and `marketplace` are used in the test cases.
 
 **Fix:** Remove unused variables or keep `schema` if it may be used for future tests. Minimal change:
+
 ```javascript
 let validate, marketplace;
 ```
+
 Then in `beforeAll`:
+
 ```javascript
 const ajv = new Ajv({ strict: true });
 addFormats(ajv);
@@ -130,6 +139,7 @@ validate = ajv.compile(schema);
 **Issue:** The `.gitignore` entry `.claude/` ignores Claude Code's working directory. This is correct behavior, but the naming similarity with `.claude-plugin/` (the core deliverable directory) could cause confusion for contributors. Not a bug -- git matches exact directory names -- but worth a comment in the file for clarity.
 
 **Fix:** Add a clarifying comment:
+
 ```
 node_modules
 coverage
