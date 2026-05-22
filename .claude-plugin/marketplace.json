@@ -5,5 +5,20 @@
   "owner": {
     "name": "Djarvur"
   },
-  "plugins": []
+  "plugins": [
+    {
+      "name": "cc-websearch",
+      "displayName": "WebSearch",
+      "version": "0.1.0",
+      "description": "DDG-powered WebSearch and WebFetch replacement for Claude Code",
+      "author": {
+        "name": "Djarvur"
+      },
+      "category": "search",
+      "source": {
+        "source": "url",
+        "url": "https://github.com/Djarvur/cc-websearch.git"
+      }
+    }
+  ]
 }

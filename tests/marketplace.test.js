@@ -71,4 +71,25 @@ describe("marketplace.json", () => {
       `Duplicate plugin names: ${[...new Set(duplicates)].join(", ")}`
     ).toEqual([]);
   });
+
+  it("cc-websearch entry has correct metadata", () => {
+    expect(marketplace.plugins.length).toBeGreaterThanOrEqual(1);
+
+    const entry = marketplace.plugins.find((p) => p.name === "cc-websearch");
+    expect(entry, "cc-websearch plugin entry not found").toBeDefined();
+
+    expect(entry.displayName).toBe("WebSearch");
+    expect(entry.version).toBe("0.1.0");
+    expect(entry.description).toContain("DDG-powered");
+
+    expect(entry.source).toBeDefined();
+    expect(entry.source.source).toBe("url");
+    expect(entry.source.url).toBe(
+      "https://github.com/Djarvur/cc-websearch.git"
+    );
+
+    expect(entry.author).toBeDefined();
+    expect(entry.author.name).toBe("Djarvur");
+    expect(entry.category).toBe("search");
+  });
 });
