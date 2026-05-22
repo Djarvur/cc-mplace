@@ -42,11 +42,11 @@ Plans:
   2. Running `claude plugin marketplace add Djarvur/cc-mplace` succeeds and the marketplace is registered
   3. Running `claude plugin install cc-websearch` resolves the plugin and installs it successfully
   4. README.md explains what the marketplace is, how to add it, and how to install plugins
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] 02-01: TBD
-- [ ] 02-02: TBD
+- [ ] 02-01: Add cc-websearch plugin entry + verify E2E CLI flow
+- [ ] 02-02: Write README.md with marketplace docs and plugin table
 
 ### Phase 3: CI Validation Pipeline
 **Goal**: Every PR is automatically validated against the marketplace schema and plugin source requirements before merge
@@ -70,6 +70,6 @@ Phases execute in numeric order: 1 → 2 → 3
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Marketplace Index & Schema | 1/1 | ✓ Complete | 2026-05-22 |
-| 2. Plugin Integration & Documentation | 0/? | Not started | - |
+| 1. Marketplace Index & Schema | 1/1 | Complete | 2026-05-22 |
+| 2. Plugin Integration & Documentation | 0/2 | Planning complete | - |
 | 3. CI Validation Pipeline | 0/? | Not started | - |
