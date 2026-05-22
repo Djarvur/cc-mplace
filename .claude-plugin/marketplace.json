@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-marketplace.json",
+  "name": "djarvur-plugin-marketplace",
+  "description": "Curated plugins for Claude Code",
+  "owner": {
+    "name": "Djarvur"
+  },
+  "plugins": []
+}
