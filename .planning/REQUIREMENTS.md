@@ -66,22 +66,22 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| MIDX-01 | — | Pending |
-| MIDX-02 | — | Pending |
-| MIDX-03 | — | Pending |
-| MIDX-04 | — | Pending |
-| PLUG-01 | — | Pending |
-| PLUG-02 | — | Pending |
-| CIVAL-01 | — | Pending |
-| CIVAL-02 | — | Pending |
-| CIVAL-03 | — | Pending |
-| DOCS-01 | — | Pending |
+| MIDX-01 | Phase 1 | Pending |
+| MIDX-02 | Phase 1 | Pending |
+| MIDX-03 | Phase 1 | Pending |
+| MIDX-04 | Phase 2 | Pending |
+| PLUG-01 | Phase 2 | Pending |
+| PLUG-02 | Phase 2 | Pending |
+| CIVAL-01 | Phase 3 | Pending |
+| CIVAL-02 | Phase 3 | Pending |
+| CIVAL-03 | Phase 3 | Pending |
+| DOCS-01 | Phase 2 | Pending |
 
 **Coverage:**
 - v1 requirements: 10 total
-- Mapped to phases: 0
-- Unmapped: 10 ⚠️
+- Mapped to phases: 10
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-05-22*
-*Last updated: 2026-05-22 after initial definition*
+*Last updated: 2026-05-22 after roadmap creation*
