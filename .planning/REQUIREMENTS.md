@@ -12,12 +12,12 @@ Requirements for initial release. Each maps to roadmap phases.
 - [ ] **MIDX-01**: marketplace.json exists at `.claude-plugin/marketplace.json` with valid schema (name, owner, description, plugins)
 - [ ] **MIDX-02**: Each plugin entry has name, source, version, description, displayName
 - [ ] **MIDX-03**: Plugin names are unique across the marketplace (no duplicates)
-- [ ] **MIDX-04**: Marketplace is addable via `claude plugin marketplace add Djarvur/cc-mplace`
+- [x] **MIDX-04**: Marketplace is addable via `claude plugin marketplace add Djarvur/cc-mplace`
 
 ### Plugin Entry
 
-- [ ] **PLUG-01**: cc-websearch is listed as the first plugin with correct metadata
-- [ ] **PLUG-02**: Plugin source resolves correctly — repo URL points to cc-websearch, plugin is installable via `claude plugin install cc-websearch`
+- [x] **PLUG-01**: cc-websearch is listed as the first plugin with correct metadata
+- [x] **PLUG-02**: Plugin source resolves correctly — repo URL points to cc-websearch, plugin is installable via `claude plugin install cc-websearch`
 
 ### CI Validation
 
@@ -49,39 +49,41 @@ Deferred to future release. Tracked but not in current roadmap.
 
 Explicitly excluded. Documented to prevent scope creep.
 
-| Feature | Reason |
-|---------|--------|
-| Website / landing page | CLI is the interface; existing aggregators (ClaudePluginHub, claudemarketplaces.com) already provide web browsing |
-| User accounts / authentication | PR-based flow; GitHub accounts are authentication |
-| Download counts / analytics | Static JSON cannot track installs; GitHub stars are a proxy |
-| User reviews / ratings | Requires backend, moderation, spam prevention |
-| Custom CLI | Claude Code CLI handles all install/resolve/update behavior natively |
-| Plugin binary distribution | Increases complexity; plugins use npm or install deps at install time |
-| Real-time updates / webhooks | Static architecture; users run `claude plugin marketplace update` |
-| Plugin signing / code signing | Overkill for curated single-author marketplace; SHA pinning is sufficient |
+| Feature                        | Reason                                                                                                            |
+| ------------------------------ | ----------------------------------------------------------------------------------------------------------------- |
+| Website / landing page         | CLI is the interface; existing aggregators (ClaudePluginHub, claudemarketplaces.com) already provide web browsing |
+| User accounts / authentication | PR-based flow; GitHub accounts are authentication                                                                 |
+| Download counts / analytics    | Static JSON cannot track installs; GitHub stars are a proxy                                                       |
+| User reviews / ratings         | Requires backend, moderation, spam prevention                                                                     |
+| Custom CLI                     | Claude Code CLI handles all install/resolve/update behavior natively                                              |
+| Plugin binary distribution     | Increases complexity; plugins use npm or install deps at install time                                             |
+| Real-time updates / webhooks   | Static architecture; users run `claude plugin marketplace update`                                                 |
+| Plugin signing / code signing  | Overkill for curated single-author marketplace; SHA pinning is sufficient                                         |
 
 ## Traceability
 
 Which phases cover which requirements. Updated during roadmap creation.
 
-| Requirement | Phase | Status |
-|-------------|-------|--------|
-| MIDX-01 | Phase 1 | Pending |
-| MIDX-02 | Phase 1 | Pending |
-| MIDX-03 | Phase 1 | Pending |
-| MIDX-04 | Phase 2 | Pending |
-| PLUG-01 | Phase 2 | Pending |
-| PLUG-02 | Phase 2 | Pending |
-| CIVAL-01 | Phase 3 | Pending |
-| CIVAL-02 | Phase 3 | Pending |
-| CIVAL-03 | Phase 3 | Pending |
-| DOCS-01 | Phase 2 | Pending |
+| Requirement | Phase   | Status  |
+| ----------- | ------- | ------- |
+| MIDX-01     | Phase 1 | Pending |
+| MIDX-02     | Phase 1 | Pending |
+| MIDX-03     | Phase 1 | Pending |
+| MIDX-04     | Phase 2 | Complete |
+| PLUG-01     | Phase 2 | Complete |
+| PLUG-02     | Phase 2 | Complete |
+| CIVAL-01    | Phase 3 | Pending |
+| CIVAL-02    | Phase 3 | Pending |
+| CIVAL-03    | Phase 3 | Pending |
+| DOCS-01     | Phase 2 | Pending |
 
 **Coverage:**
+
 - v1 requirements: 10 total
 - Mapped to phases: 10
 - Unmapped: 0
 
 ---
-*Requirements defined: 2026-05-22*
-*Last updated: 2026-05-22 after roadmap creation*
+
+_Requirements defined: 2026-05-22_
+_Last updated: 2026-05-22 after roadmap creation_
