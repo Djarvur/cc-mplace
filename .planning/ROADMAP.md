@@ -14,7 +14,7 @@ Build a static plugin marketplace for Claude Code. The project delivers a valid 
 Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Marketplace Index & Schema** - Create the valid marketplace.json structure with correct schema and uniqueness constraints
-- [ ] **Phase 2: Plugin Integration & Documentation** - Make the marketplace work end-to-end with cc-websearch and document usage in README
+- [x] **Phase 2: Plugin Integration & Documentation** - Make the marketplace work end-to-end with cc-websearch and document usage in README
 - [ ] **Phase 3: CI Validation Pipeline** - Add GitHub Actions CI to validate the marketplace on every PR
 
 ## Phase Details
@@ -53,7 +53,7 @@ Plans:
 Plans:
 
 - [x] 02-01: Add cc-websearch plugin entry + verify E2E CLI flow
-- [ ] 02-02: Write README.md with marketplace docs and plugin table
+- [x] 02-02: Write README.md with marketplace docs and plugin table
 
 ### Phase 3: CI Validation Pipeline
 
@@ -81,5 +81,5 @@ Phases execute in numeric order: 1 → 2 → 3
 | Phase                                 | Plans Complete | Status            | Completed  |
 | ------------------------------------- | -------------- | ----------------- | ---------- |
 | 1. Marketplace Index & Schema         | 1/1            | Complete          | 2026-05-22 |
-| 2. Plugin Integration & Documentation | 1/2 | In Progress|  |
+| 2. Plugin Integration & Documentation | 2/2            | Complete          | 2026-05-22 |
 | 3. CI Validation Pipeline             | 0/?            | Not started       | -          |

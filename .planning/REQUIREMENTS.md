@@ -9,9 +9,9 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Marketplace Index
 
-- [ ] **MIDX-01**: marketplace.json exists at `.claude-plugin/marketplace.json` with valid schema (name, owner, description, plugins)
-- [ ] **MIDX-02**: Each plugin entry has name, source, version, description, displayName
-- [ ] **MIDX-03**: Plugin names are unique across the marketplace (no duplicates)
+- [x] **MIDX-01**: marketplace.json exists at `.claude-plugin/marketplace.json` with valid schema (name, owner, description, plugins)
+- [x] **MIDX-02**: Each plugin entry has name, source, version, description, displayName
+- [x] **MIDX-03**: Plugin names are unique across the marketplace (no duplicates)
 - [x] **MIDX-04**: Marketplace is addable via `claude plugin marketplace add Djarvur/cc-mplace`
 
 ### Plugin Entry
@@ -27,7 +27,7 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Documentation
 
-- [ ] **DOCS-01**: README explains what this marketplace is, how to add it (`claude plugin marketplace add`), and how to install plugins (`claude plugin install`)
+- [x] **DOCS-01**: README explains what this marketplace is, how to add it (`claude plugin marketplace add`), and how to install plugins (`claude plugin install`)
 
 ## v2 Requirements
 
@@ -66,16 +66,16 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase   | Status  |
 | ----------- | ------- | ------- |
-| MIDX-01     | Phase 1 | Pending |
-| MIDX-02     | Phase 1 | Pending |
-| MIDX-03     | Phase 1 | Pending |
+| MIDX-01     | Phase 1 | Complete |
+| MIDX-02     | Phase 1 | Complete |
+| MIDX-03     | Phase 1 | Complete |
 | MIDX-04     | Phase 2 | Complete |
 | PLUG-01     | Phase 2 | Complete |
 | PLUG-02     | Phase 2 | Complete |
 | CIVAL-01    | Phase 3 | Pending |
 | CIVAL-02    | Phase 3 | Pending |
 | CIVAL-03    | Phase 3 | Pending |
-| DOCS-01     | Phase 2 | Pending |
+| DOCS-01     | Phase 2 | Complete |
 
 **Coverage:**
 
