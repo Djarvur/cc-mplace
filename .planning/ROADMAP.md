@@ -72,7 +72,7 @@ Plans:
 
 **Wave 1**
 
-- [ ] 03-01: Create GitHub Actions workflow with four validation steps (Prettier, Vitest, Claude Code validate, source verification)
+- [x] 03-01: Create GitHub Actions workflow with four validation steps (Prettier, Vitest, Claude Code validate, source verification)
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
@@ -87,4 +87,4 @@ Phases execute in numeric order: 1 → 2 → 3
 | ------------------------------------- | -------------- | ----------------- | ---------- |
 | 1. Marketplace Index & Schema         | 1/1            | Complete          | 2026-05-22 |
 | 2. Plugin Integration & Documentation | 2/2            | Complete          | 2026-05-22 |
-| 3. CI Validation Pipeline             | 0/2            | Not started       | -          |
+| 3. CI Validation Pipeline             | 1/2            | Executing         | -          |

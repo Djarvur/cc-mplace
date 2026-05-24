@@ -21,9 +21,9 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### CI Validation
 
-- [ ] **CIVAL-01**: GitHub Actions workflow validates marketplace.json schema on every PR
-- [ ] **CIVAL-02**: CI runs `claude plugin validate .` as a validation check
-- [ ] **CIVAL-03**: CI verifies plugin source repos are reachable and contain valid plugin.json manifest
+- [x] **CIVAL-01**: GitHub Actions workflow validates marketplace.json schema on every PR
+- [x] **CIVAL-02**: CI runs `claude plugin validate .` as a validation check
+- [x] **CIVAL-03**: CI verifies plugin source repos are reachable and contain valid plugin.json manifest
 
 ### Documentation
 
@@ -72,9 +72,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | MIDX-04     | Phase 2 | Complete |
 | PLUG-01     | Phase 2 | Complete |
 | PLUG-02     | Phase 2 | Complete |
-| CIVAL-01    | Phase 3 | Pending |
-| CIVAL-02    | Phase 3 | Pending |
-| CIVAL-03    | Phase 3 | Pending |
+| CIVAL-01    | Phase 3 | Complete |
+| CIVAL-02    | Phase 3 | Complete |
+| CIVAL-03    | Phase 3 | Complete |
 | DOCS-01     | Phase 2 | Complete |
 
 **Coverage:**
@@ -86,4 +86,4 @@ Which phases cover which requirements. Updated during roadmap creation.
 ---
 
 _Requirements defined: 2026-05-22_
-_Last updated: 2026-05-22 after roadmap creation_
+_Last updated: 2026-05-24 after Phase 3 Plan 01 completion_
