@@ -1,0 +1,95 @@
+name: Validate Marketplace
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check formatting
+        run: npm run format:check
+
+      - name: Run tests
+        run: npm test
+
+      - name: Install Claude Code
+        run: npm install -g @anthropic-ai/claude-code
+
+      - name: Configure Claude Code for CI
+        run: |
+          mkdir -p ~/.claude
+          cat > ~/.claude/settings.json << 'SETTINGS'
+          {
+            "env": {
+              "ANTHROPIC_API_KEY": "${{ secrets.OPENCODE_API_KEY }}",
+              "ANTHROPIC_BASE_URL": "https://opencode.ai/zen/go",
+              "ANTHROPIC_DEFAULT_HAIKU_MODEL": "deepseek-v4-flash",
+              "ANTHROPIC_DEFAULT_SONNET_MODEL": "deepseek-v4-flash",
+              "ANTHROPIC_DEFAULT_OPUS_MODEL": "deepseek-v4-flash",
+              "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1",
+              "DISABLE_TELEMETRY": "true",
+              "DISABLE_COST_WARNINGS": "true",
+              "CLAUDE_CODE_USE_BEDROCK": "",
+              "API_TIMEOUT_MS": "3000000"
+            },
+            "model": "deepseek-v4-flash"
+          }
+          SETTINGS
+          echo '{"hasCompletedOnboarding": true}' > ~/.claude.json
+
+      - name: Validate with Claude Code
+        run: claude plugin validate . --strict
+
+      - name: Verify plugin sources
+        run: |
+          MARKETPLACE=".claude-plugin/marketplace.json"
+          PLUGINS=$(jq -c '.plugins[]' "$MARKETPLACE")
+
+          echo "$PLUGINS" | while read -r plugin; do
+            NAME=$(echo "$plugin" | jq -r '.name')
+            SOURCE_TYPE=$(echo "$plugin" | jq -r '.source.source // empty')
+            SOURCE_URL=$(echo "$plugin" | jq -r '.source.url // empty')
+
+            if [ "$SOURCE_TYPE" = "url" ] && echo "$SOURCE_URL" | grep -q "github.com"; then
+              REPO_PATH=$(echo "$SOURCE_URL" | sed 's|.*github.com/||; s|\.git$||')
+              echo "Verifying plugin '$NAME' from $REPO_PATH..."
+
+              if ! git ls-remote "https://github.com/${REPO_PATH}.git" HEAD >/dev/null 2>&1; then
+                echo "FAIL: Repository $REPO_PATH not reachable"
+                exit 1
+              fi
+              echo "  Repo exists: OK"
+
+              # GITHUB_TOKEN is repo-scoped; for public repos, unauthenticated works
+              DEFAULT_BRANCH=$(curl -sf "https://api.github.com/repos/$REPO_PATH" | jq -r '.default_branch')
+
+              if [ -z "$DEFAULT_BRANCH" ]; then
+                echo "FAIL: Could not determine default branch for $REPO_PATH"
+                exit 1
+              fi
+              echo "  Default branch: $DEFAULT_BRANCH"
+
+              HTTP_CODE=$(curl -sf -o /dev/null -w "%{http_code}" \
+                "https://raw.githubusercontent.com/${REPO_PATH}/${DEFAULT_BRANCH}/.claude-plugin/plugin.json")
+
+              if [ "$HTTP_CODE" != "200" ]; then
+                echo "FAIL: plugin.json not found at ${DEFAULT_BRANCH} branch (HTTP $HTTP_CODE)"
+                exit 1
+              fi
+              echo "  plugin.json: OK"
+            fi
+          done

@@ -1,0 +1,5 @@
+.planning/
+CLAUDE.md
+.claude/
+*.md
+!.claude-plugin/

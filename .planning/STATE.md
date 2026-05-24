@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: phase_complete
-stopped_at: Phase 2 verified and complete
-last_updated: "2026-05-22T16:30:00Z"
-last_activity: 2026-05-22 -- Phase 2 complete, human UAT passed (E2E CLI verified)
+status: Awaiting next milestone
+stopped_at: Phase 04 context gathered
+last_updated: "2026-05-24T20:26:59.304Z"
+last_activity: 2026-05-24 — Milestone v1.0 completed and archived
 progress:
-  total_phases: 3
-  completed_phases: 2
-  total_plans: 3
-  completed_plans: 3
-  percent: 67
+  total_phases: 4
+  completed_phases: 4
+  total_plans: 6
+  completed_plans: 6
+  percent: 100
 ---
 
 # Project State
@@ -21,24 +21,22 @@ progress:
 See: .planning/PROJECT.md (updated 2026-05-22)
 
 **Core value:** Plugins are discoverable and installable via Claude Code CLI commands -- no manual cloning, config editing, or guessing
-**Current focus:** Phase 3: CI Validation Pipeline (next up)
+**Current focus:** Milestone complete
 
 ## Current Position
 
-Phase: 2 of 3 (Plugin Integration & Documentation)
-Plan: 2 of 2 in current phase
-Status: Phase complete — verified, human UAT passed
-Last activity: 2026-05-22 -- E2E CLI flow verified: marketplace add, plugin install, all enabled
-
-Progress: [██████░░░░] 67%
+Phase: Milestone v1.0 complete
+Plan: —
+Status: Awaiting next milestone
+Last activity: 2026-05-24 — Milestone v1.0 completed and archived
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 3
-- Average duration: 3 min
-- Total execution time: 0.2 hours
+- Total plans completed: 8
+- Average duration: 4 min
+- Total execution time: 0.3 hours
 
 **By Phase:**
 
@@ -46,15 +44,20 @@ Progress: [██████░░░░] 67%
 | ----- | ----- | ----- | -------- |
 | 1     | 1     | 4 min | 4 min    |
 | 2     | 2     | 11 min | 5.5 min |
+| 3     | 2     | 5 min  | 2.5 min  |
+| 03 | 2 | - | - |
+| 04 | 1 | - | - |
 
 **Recent Trend:**
 
-- Last 5 plans: 01-01 (4 min), 02-01 (10 min), 02-02 (1 min)
+- Last 5 plans: 01-01 (4 min), 02-01 (10 min), 02-02 (1 min), 03-01 (1 min), 03-02 (4 min)
 - Trend: Steady
 
 _Updated after each plan completion_
 | Phase 02 P01 | 10 | 1 tasks | 2 files |
 | Phase 02 P02 | 1 | 1 tasks | 1 files |
+| Phase 03 P01 | 1 | 2 tasks | 1 files |
+| Phase 03 P02 | 4 | 2 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -69,10 +72,20 @@ Recent decisions affecting current work:
 - [Phase ?]: E2E CLI verification deferred -- changes on local branch, not merged to main. CLI requires GitHub default branch (D-08)
 - Minimal README (~47 lines) per D-05 -- essentials only: what this is, how to add marketplace, how to install plugins
 - Plugin table with name + description columns per D-06
+- Used npm install for Claude Code CLI in CI instead of native installer (geo-restriction; RESEARCH.md Pitfall #2)
+- Inline shell script for source verification in CI workflow (simpler than separate Vitest test)
+- GitHub API default_branch query for source verification instead of assuming main
+- Created main branch at phase 2 completion as stable PR target (repo had only marketplace branch)
+- Excluded .planning/ and CLAUDE.md from Prettier via .prettierignore (GSD artifacts, not registry content)
+- Removed GITHUB_TOKEN auth from cross-repo API call (token is repo-scoped, public repos work without auth)
 
 ### Pending Todos
 
 None yet.
+
+### Roadmap Evolution
+
+- Phase 4 added: Periodic Dependency and Security Checks
 
 ### Blockers/Concerns
 
@@ -88,6 +101,10 @@ Items acknowledged and carried forward from previous milestone close:
 
 ## Session Continuity
 
-Last session: 2026-05-22T13:16:32Z
-Stopped at: Completed 02-02-PLAN.md
-Resume file: None
+Last session: 2026-05-24T19:57:08.311Z
+Stopped at: Phase 04 context gathered
+Resume file: .planning/phases/04-periodic-dependency-and-security-checks/04-CONTEXT.md
+
+## Operator Next Steps
+
+- Start the next milestone with /gsd-new-milestone
