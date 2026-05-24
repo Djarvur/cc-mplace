@@ -15,7 +15,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Marketplace Index & Schema** - Create the valid marketplace.json structure with correct schema and uniqueness constraints
 - [x] **Phase 2: Plugin Integration & Documentation** - Make the marketplace work end-to-end with cc-websearch and document usage in README
-- [ ] **Phase 3: CI Validation Pipeline** - Add GitHub Actions CI to validate the marketplace on every PR
+- [x] **Phase 3: CI Validation Pipeline** - Add GitHub Actions CI to validate the marketplace on every PR (completed 2026-05-24)
 
 ## Phase Details
 
@@ -76,7 +76,7 @@ Plans:
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
-- [ ] 03-02: End-to-end CI verification -- configure GitHub secret, open test PR, confirm all steps pass
+- [x] 03-02: End-to-end CI verification -- configure GitHub secret, open test PR, confirm all steps pass
 
 ## Progress
 
@@ -87,4 +87,4 @@ Phases execute in numeric order: 1 → 2 → 3
 | ------------------------------------- | -------------- | ----------------- | ---------- |
 | 1. Marketplace Index & Schema         | 1/1            | Complete          | 2026-05-22 |
 | 2. Plugin Integration & Documentation | 2/2            | Complete          | 2026-05-22 |
-| 3. CI Validation Pipeline             | 1/2            | Executing         | -          |
+| 3. CI Validation Pipeline             | 2/2 | Complete   | 2026-05-24 |
