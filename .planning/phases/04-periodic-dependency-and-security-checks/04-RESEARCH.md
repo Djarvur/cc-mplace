@@ -439,22 +439,13 @@ EOF
 
 **Note:** Most claims in this research are verified against official GitHub documentation. Only the two items above are tagged ASSUMED.
 
-## Open Questions
+## Open Questions (RESOLVED)
 
-1. **D-04 vs D-09 Resolution Required**
-   - What we know: D-04 requires auto-merge, D-09 forbids workflow files. These are incompatible.
-   - What's unclear: Which decision takes priority?
-   - Recommendation: Relax D-09 to allow a single auto-merge workflow file. The `dependabot.yml` handles all scanning/scheduling (no workflow needed for that), but auto-merge is a PR-level feature that requires external triggering.
+1. **D-04 vs D-09 Resolution Required** — RESOLVED: D-09 relaxed to allow one auto-merge workflow. `dependabot.yml` has no auto-merge option; D-04 (the functional requirement) takes priority. The auto-merge workflow is minimal (~20 lines) and follows the established `.github/workflows/` pattern.
 
-2. **Branch Protection Scope**
-   - What we know: Main branch has no protection rules currently.
-   - What's unclear: Should the plan add branch protection as part of this phase, or is that a separate concern?
-   - Recommendation: Include it as a task in this phase. Auto-merge without branch protection is dangerous (PRs merge before CI completes). The `validate` status check must be required.
+2. **Branch Protection Scope** — RESOLVED: Branch protection on main is included in Plan 04-01 Task 2. Auto-merge without branch protection is unsafe (PRs merge before CI). The `validate` status check is required.
 
-3. **Status Check Context Name**
-   - What we know: The CI job is named `validate` in `validate.yml`.
-   - What's unclear: Whether GitHub uses the job name or the workflow name as the status check context.
-   - Recommendation: Planner should verify by checking an existing PR's status checks, or use `gh api repos/Djarvur/cc-mplace/commits/main/status` to see the context name.
+3. **Status Check Context Name** — RESOLVED: The status check context name is `validate` (confirmed from the CI job name in `.github/workflows/validate.yml`). GitHub uses the job name as the status check context.
 
 ## Environment Availability
 

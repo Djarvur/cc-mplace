@@ -31,7 +31,7 @@ Configure Dependabot for automated dependency version updates and security vulne
 
 ### Workflow Structure
 
-- **D-09:** Use `dependabot.yml` config file only — no workflow file needed. Dependabot runs as a GitHub service
+- **D-09:** Use `dependabot.yml` for scanning/scheduling/cooldown config. One auto-merge workflow file (`dependabot-auto-merge.yml`) is needed for D-04 since `dependabot.yml` has no auto-merge option. Updated per research finding.
 - **D-10:** Scan two ecosystems: npm (4 devDependencies) and GitHub Actions (actions/checkout, actions/setup-node)
 - **D-11:** Apply standard labels to Dependabot PRs: `dependencies` and `automated` for easy filtering
 
