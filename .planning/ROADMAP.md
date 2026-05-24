@@ -70,7 +70,12 @@ Plans:
 
 Plans:
 
+**Wave 1**
+
 - [ ] 03-01: Create GitHub Actions workflow with four validation steps (Prettier, Vitest, Claude Code validate, source verification)
+
+**Wave 2** *(blocked on Wave 1 completion)*
+
 - [ ] 03-02: End-to-end CI verification -- configure GitHub secret, open test PR, confirm all steps pass
 
 ## Progress

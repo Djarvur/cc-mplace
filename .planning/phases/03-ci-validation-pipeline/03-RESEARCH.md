@@ -451,17 +451,15 @@ done
 
 **Note on D-01 vs. reality:** CONTEXT.md D-01 specifies the native installer (`curl -fsSL https://claude.ai/install.sh | bash`), but research confirmed this URL returns HTML (geo-restricted) rather than a shell script from the researcher's location. The planner must decide whether to follow D-01 literally (risky in CI) or use the npm installation method (reliable in CI). The npm package is the official Anthropic distribution and includes the same CLI.
 
-## Open Questions
+## Open Questions (RESOLVED)
 
-1. **D-01 (native installer) vs. npm install reliability**
-   - What we know: CONTEXT.md D-01 specifies native installer. Research shows it returns HTML in some regions. npm package is the same CLI from the same publisher.
-   - What's unclear: Whether the native installer works reliably on GitHub Actions `ubuntu-latest` runners.
-   - Recommendation: Planner should use `npm install -g @anthropic-ai/claude-code` as the installation method. If the user insists on D-01, add a fallback step that tries npm if curl fails.
+1. **D-01 (native installer) vs. npm install reliability** — RESOLVED by Plan 03-01 Task 1
+   - What we knew: CONTEXT.md D-01 specifies native installer. Research showed it returns HTML in some regions. npm package is the same CLI from the same publisher.
+   - Resolution: Plan 03-01 uses `npm install -g @anthropic-ai/claude-code` with documented justification for D-01 deviation (geo-restriction verified in RESEARCH.md Pitfall #2).
 
-2. **Whether `claude plugin validate` actually needs authentication**
-   - What we know: The CLI is designed around authenticated sessions. CONTEXT.md specifies custom model provider configuration (D-04 through D-08).
-   - What's unclear: Whether `claude plugin validate` specifically makes API calls during validation, or if it's purely local.
-   - Recommendation: Include the settings.json configuration as specified in D-08. It adds minimal complexity and prevents auth-related failures.
+2. **Whether `claude plugin validate` actually needs authentication** — RESOLVED by Plan 03-01 Task 1
+   - What we knew: The CLI is designed around authenticated sessions. CONTEXT.md specifies custom model provider configuration (D-04 through D-08).
+   - Resolution: Plan 03-01 includes full settings.json configuration per D-08 with opencode.ai proxy, API key from GitHub secret, and onboarding bypass. Safety-first approach.
 
 ## Environment Availability
 
