@@ -74,8 +74,8 @@ jobs:
               fi
               echo "  Repo exists: OK"
 
-              DEFAULT_BRANCH=$(curl -sf -H "Authorization: token $GITHUB_TOKEN" \
-                "https://api.github.com/repos/$REPO_PATH" | jq -r '.default_branch')
+              # GITHUB_TOKEN is repo-scoped; for public repos, unauthenticated works
+              DEFAULT_BRANCH=$(curl -sf "https://api.github.com/repos/$REPO_PATH" | jq -r '.default_branch')
 
               if [ -z "$DEFAULT_BRANCH" ]; then
                 echo "FAIL: Could not determine default branch for $REPO_PATH"
