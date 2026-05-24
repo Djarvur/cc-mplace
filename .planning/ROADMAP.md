@@ -66,12 +66,12 @@ Plans:
 1. A GitHub Actions workflow runs on every PR and validates marketplace.json against the expected schema
 2. CI executes `claude plugin validate .` as part of the validation pipeline
 3. CI verifies that plugin source repos are reachable and contain a valid plugin.json manifest
-   **Plans**: TBD
+   **Plans**: 2 plans
 
 Plans:
 
-- [ ] 03-01: TBD
-- [ ] 03-02: TBD
+- [ ] 03-01: Create GitHub Actions workflow with four validation steps (Prettier, Vitest, Claude Code validate, source verification)
+- [ ] 03-02: End-to-end CI verification -- configure GitHub secret, open test PR, confirm all steps pass
 
 ## Progress
 
@@ -82,4 +82,4 @@ Phases execute in numeric order: 1 → 2 → 3
 | ------------------------------------- | -------------- | ----------------- | ---------- |
 | 1. Marketplace Index & Schema         | 1/1            | Complete          | 2026-05-22 |
 | 2. Plugin Integration & Documentation | 2/2            | Complete          | 2026-05-22 |
-| 3. CI Validation Pipeline             | 0/?            | Not started       | -          |
+| 3. CI Validation Pipeline             | 0/2            | Not started       | -          |
