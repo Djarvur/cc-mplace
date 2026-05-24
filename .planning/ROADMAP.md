@@ -88,3 +88,16 @@ Phases execute in numeric order: 1 → 2 → 3
 | 1. Marketplace Index & Schema         | 1/1            | Complete          | 2026-05-22 |
 | 2. Plugin Integration & Documentation | 2/2            | Complete          | 2026-05-22 |
 | 3. CI Validation Pipeline             | 2/2 | Complete   | 2026-05-24 |
+
+### Phase 4: Periodic Dependency and Security Checks
+
+**Goal**: Automated dependency audits and security vulnerability scans run on a schedule and on every PR
+**Depends on:** Phase 3
+**Requirements**: D-01 through D-11 (CONTEXT.md decisions)
+**Plans:** 1 plan
+
+Plans:
+
+**Wave 1**
+
+- [ ] 04-01: Create Dependabot config, auto-merge workflow, and repository settings (branch protection, auto-merge enable, labels)
