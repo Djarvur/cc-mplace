@@ -79,7 +79,7 @@ describe("marketplace.json", () => {
     expect(entry, "cc-websearch plugin entry not found").toBeDefined();
 
     expect(entry.displayName).toBe("WebSearch");
-    expect(entry.version).toBe("1.2.3");
+    expect(entry.version).toBe("1.2.4");
     expect(entry.description).toContain("DDG-powered");
 
     expect(entry.source).toBeDefined();
