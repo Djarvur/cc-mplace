@@ -10,7 +10,7 @@
   "devDependencies": {
     "ajv": "^8.20.0",
     "ajv-formats": "^3.0.1",
-    "prettier": "^3.8.3",
+    "prettier": "^3.8.4",
     "vitest": "^4.1.8"
   }
 }
