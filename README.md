@@ -34,9 +34,10 @@ claude plugin list
 
 ## Available Plugins
 
-| Plugin       | Description                                                    |
-| ------------ | -------------------------------------------------------------- |
-| cc-websearch | DDG-powered WebSearch and WebFetch replacement for Claude Code |
+| Plugin       | Description                                                                              |
+| ------------ | ---------------------------------------------------------------------------------------- |
+| cc-websearch | DDG-powered WebSearch and WebFetch replacement for Claude Code                           |
+| go-ultimate  | Opinionated Go development skill — architecture, conventions, review, MCP/agent patterns |
 
 ## Adding a Plugin
 

@@ -19,6 +19,20 @@
         "source": "url",
         "url": "https://github.com/Djarvur/cc-websearch.git"
       }
+    },
+    {
+      "name": "go-ultimate",
+      "displayName": "Go Ultimate",
+      "version": "0.4.1",
+      "description": "Opinionated Go development skill — architecture, conventions, review, MCP/agent patterns",
+      "author": {
+        "name": "Djarvur"
+      },
+      "category": "languages",
+      "source": {
+        "source": "url",
+        "url": "https://github.com/Djarvur/go-ultimate.git"
+      }
     }
   ]
 }
