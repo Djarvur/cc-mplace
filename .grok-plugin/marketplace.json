@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json.schemastore.org/grok-marketplace.json",
+  "name": "djarvur-plugin-marketplace",
+  "owner": {
+    "name": "Djarvur"
+  },
+  "plugins": [
+    {
+      "name": "cc-websearch",
+      "displayName": "WebSearch",
+      "version": "1.2.4",
+      "description": "DDG-powered WebSearch and WebFetch replacement",
+      "author": {
+        "name": "Djarvur"
+      },
+      "category": "search",
+      "source": "https://github.com/Djarvur/cc-websearch.git"
+    },
+    {
+      "name": "go-ultimate",
+      "displayName": "Go Ultimate",
+      "version": "0.4.1",
+      "description": "Opinionated Go development skill — architecture, conventions, review, MCP/agent patterns",
+      "author": {
+        "name": "Djarvur"
+      },
+      "category": "languages",
+      "source": "https://github.com/Djarvur/go-ultimate.git"
+    }
+  ]
+}
