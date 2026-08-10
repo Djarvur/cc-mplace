@@ -23,7 +23,7 @@
     {
       "name": "go-ultimate",
       "displayName": "Go Ultimate",
-      "version": "0.4.1",
+      "version": "0.10.0",
       "description": "Opinionated Go development skill — architecture, conventions, review, MCP/agent patterns",
       "author": {
         "name": "Djarvur"
@@ -31,7 +31,8 @@
       "category": "languages",
       "source": {
         "source": "url",
-        "url": "https://github.com/Djarvur/go-ultimate.git"
+        "url": "https://github.com/Djarvur/go-ultimate.git",
+        "ref": "v0.10.0"
       }
     }
   ]
