@@ -1,0 +1,48 @@
+{
+  "name": "djarvur-plugin-marketplace",
+  "owner": {
+    "name": "Djarvur"
+  },
+  "metadata": {
+    "description": "Curated plugins for coding-agent hosts.",
+    "version": "0.4.1"
+  },
+  "plugins": [
+    {
+      "name": "cc-websearch",
+      "description": "DDG-powered WebSearch and WebFetch replacement",
+      "version": "1.2.4",
+      "author": {
+        "name": "Djarvur",
+        "url": "https://github.com/Djarvur"
+      },
+      "source": {
+        "source": "url",
+        "url": "https://github.com/Djarvur/cc-websearch.git"
+      },
+      "category": "search",
+      "policy": {
+        "installation": "auto",
+        "authentication": "none"
+      }
+    },
+    {
+      "name": "go-ultimate",
+      "description": "Opinionated Go development skill — architecture, conventions, review, MCP/agent patterns",
+      "version": "0.4.1",
+      "author": {
+        "name": "Djarvur",
+        "url": "https://github.com/Djarvur"
+      },
+      "source": {
+        "source": "url",
+        "url": "https://github.com/Djarvur/go-ultimate.git"
+      },
+      "category": "languages",
+      "policy": {
+        "installation": "auto",
+        "authentication": "none"
+      }
+    }
+  ]
+}
