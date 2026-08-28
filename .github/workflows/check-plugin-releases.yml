@@ -1,0 +1,179 @@
+name: Check plugin releases
+
+on:
+  schedule:
+    - cron: "0 7 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 20
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Detect upstream releases and bump entries
+        id: bump
+        run: |
+          set -euo pipefail
+
+          INDEXES=(
+            .claude-plugin/marketplace.json
+            .agents/plugins/marketplace.json
+            .cursor-plugin/marketplace.json
+            .grok-plugin/marketplace.json
+            .github/plugin/marketplace.json
+          )
+          SUMMARY=""
+
+          for NAME in $(jq -r '.plugins[].name' .claude-plugin/marketplace.json); do
+            URL=$(jq -r --arg n "$NAME" \
+              '.plugins[] | select(.name == $n)
+               | if (.source | type) == "object" then .source.url else .source end' \
+              .claude-plugin/marketplace.json)
+
+            CURRENT=$(jq -r --arg n "$NAME" \
+              '.plugins[] | select(.name == $n) | .version' \
+              .claude-plugin/marketplace.json)
+
+            LATEST=$(git ls-remote --tags --refs "$URL" \
+              | sed 's|.*refs/tags/v||' \
+              | grep -E '^[0-9]+\.[0-9]+\.[0-9]+$' \
+              | sort -V | tail -1) || true
+
+            if [ -z "$LATEST" ]; then
+              echo "$NAME: no semver tags at $URL, skipping"
+              continue
+            fi
+
+            # Only ever move forward: a deleted or yanked tag must not downgrade an entry.
+            NEWEST=$(printf '%s\n%s\n' "$CURRENT" "$LATEST" | sort -V | tail -1)
+            if [ "$LATEST" = "$CURRENT" ] || [ "$NEWEST" != "$LATEST" ]; then
+              echo "$NAME: $CURRENT is current"
+              continue
+            fi
+
+            echo "$NAME: $CURRENT -> $LATEST"
+            SUMMARY="${SUMMARY}- \`${NAME}\`: ${CURRENT} -> ${LATEST}"$'\n'
+
+            # Only entries with an object-shaped source carry a ref; the rest
+            # resolve the default branch and take the version bump alone.
+            for F in "${INDEXES[@]}"; do
+              jq --arg n "$NAME" --arg v "$LATEST" '
+                (.plugins[] | select(.name == $n) | .version) = $v
+                | (.plugins[] | select(.name == $n
+                                       and (.source | type) == "object"
+                                       and (.source | has("ref")))
+                   | .source.ref) = "v" + $v
+              ' "$F" > "$F.tmp" && mv "$F.tmp" "$F"
+            done
+          done
+
+          if [ -z "$SUMMARY" ]; then
+            echo "All entries are current."
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          npx prettier --write "${INDEXES[@]}"
+
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+          {
+            echo "summary<<GITHUB_OUTPUT_EOF"
+            printf '%s' "$SUMMARY"
+            echo "GITHUB_OUTPUT_EOF"
+          } >> "$GITHUB_OUTPUT"
+
+      # A PR opened with GITHUB_TOKEN does not trigger pull_request workflows,
+      # so validate.yml will not run on it. The same checks run here instead.
+      - name: Check formatting
+        if: steps.bump.outputs.changed == 'true'
+        run: npm run format:check
+
+      - name: Run tests
+        if: steps.bump.outputs.changed == 'true'
+        run: npm test
+
+      - name: Install Claude Code
+        if: steps.bump.outputs.changed == 'true'
+        run: npm install -g @anthropic-ai/claude-code
+
+      - name: Configure Claude Code for CI
+        if: steps.bump.outputs.changed == 'true'
+        run: |
+          mkdir -p ~/.claude
+          cat > ~/.claude/settings.json << 'SETTINGS'
+          {
+            "env": {
+              "ANTHROPIC_API_KEY": "${{ secrets.OPENCODE_API_KEY }}",
+              "ANTHROPIC_BASE_URL": "https://opencode.ai/zen/go",
+              "ANTHROPIC_DEFAULT_HAIKU_MODEL": "deepseek-v4-flash",
+              "ANTHROPIC_DEFAULT_SONNET_MODEL": "deepseek-v4-flash",
+              "ANTHROPIC_DEFAULT_OPUS_MODEL": "deepseek-v4-flash",
+              "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1",
+              "DISABLE_TELEMETRY": "true",
+              "DISABLE_COST_WARNINGS": "true",
+              "CLAUDE_CODE_USE_BEDROCK": "",
+              "API_TIMEOUT_MS": "3000000"
+            },
+            "model": "deepseek-v4-flash"
+          }
+          SETTINGS
+          echo '{"hasCompletedOnboarding": true}' > ~/.claude.json
+
+      - name: Validate with Claude Code
+        if: steps.bump.outputs.changed == 'true'
+        run: claude plugin validate . --strict
+
+      - name: Open pull request
+        if: steps.bump.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SUMMARY: ${{ steps.bump.outputs.summary }}
+        run: |
+          set -euo pipefail
+          BRANCH="chore/plugin-releases"
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -B "$BRANCH"
+          git add -A
+          git commit -m "chore: bump plugin entries to latest upstream releases" -m "$SUMMARY"
+
+          # Rolling branch recomputed from main every run, so a later release
+          # folds into the same PR. Force-push discards manual edits here.
+          git push --force origin "$BRANCH"
+
+          if [ -n "$(gh pr list --head "$BRANCH" --state open --json number -q '.[0].number')" ]; then
+            echo "PR already open for $BRANCH; pushed the update to it."
+            exit 0
+          fi
+
+          BODY=$(cat <<EOF
+          Upstream releases detected by the scheduled check:
+
+          $SUMMARY
+          Prettier, Vitest and \`claude plugin validate --strict\` already ran in the job
+          that opened this PR. They do not re-run here: a PR opened with \`GITHUB_TOKEN\`
+          does not trigger \`pull_request\` workflows.
+
+          Merging ships these versions to users, so read the upstream release notes first.
+          EOF
+          )
+
+          gh pr create --head "$BRANCH" --base main \
+            --title "chore: bump plugin entries to latest upstream releases" \
+            --body "$BODY"
