@@ -57,7 +57,7 @@ This marketplace ships one index per host (see the paths listed above). The `go-
 | Grok Build | `.grok-plugin/plugin.json` |
 | Generic / OpenCode | `.plugin/plugin.json` |
 
-Each index pins with whatever mechanism its host supports. Claude Code and Codex pin the release tag (`"ref": "v0.12.0"`); Grok Build pins the full commit SHA that tag points at, which is the form its docs prescribe. The Cursor and Copilot indexes carry no pin and resolve the default branch of `Djarvur/go-ultimate`, so there their `version` field is metadata for display. To pin a version by hand in those two, check out the matching tag (`v0.12.0`) rather than `main`.
+Every entry is pinned to a release, with whatever mechanism its host supports. Claude Code and Codex pin the release tag (`"ref": "v0.12.0"`); Grok Build pins the full commit SHA that tag points at, which is the form its docs prescribe. The Cursor and Copilot indexes carry no pin and resolve the plugin's default branch, so there the `version` field is metadata for display rather than a guarantee. To pin a version by hand in those two, check out the matching tag rather than the default branch.
 
 ## Adding a Plugin
 
@@ -65,4 +65,6 @@ Plugins are added via pull request. Fork this repository, add an entry to **ever
 
 ## License
 
-All rights reserved.
+[MIT](LICENSE).
+
+This covers the marketplace itself — the host indexes, the tests and the CI around them. It says nothing about the plugins listed here: each lives in its own repository and carries its own license.
