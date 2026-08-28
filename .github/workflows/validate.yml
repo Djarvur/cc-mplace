@@ -63,6 +63,8 @@ jobs:
             NAME=$(echo "$plugin" | jq -r '.name')
             SOURCE_TYPE=$(echo "$plugin" | jq -r '.source.source // empty')
             SOURCE_URL=$(echo "$plugin" | jq -r '.source.url // empty')
+            SOURCE_REF=$(echo "$plugin" | jq -r '.source.ref // empty')
+            VERSION=$(echo "$plugin" | jq -r '.version // empty')
 
             if [ "$SOURCE_TYPE" = "url" ] && echo "$SOURCE_URL" | grep -q "github.com"; then
               REPO_PATH=$(echo "$SOURCE_URL" | sed 's|.*github.com/||; s|\.git$||')
@@ -83,13 +85,26 @@ jobs:
               fi
               echo "  Default branch: $DEFAULT_BRANCH"
 
-              HTTP_CODE=$(curl -sf -o /dev/null -w "%{http_code}" \
-                "https://raw.githubusercontent.com/${REPO_PATH}/${DEFAULT_BRANCH}/.claude-plugin/plugin.json")
+              # Check what the entry actually resolves to, not just the default branch
+              TARGET="${SOURCE_REF:-$DEFAULT_BRANCH}"
 
-              if [ "$HTTP_CODE" != "200" ]; then
-                echo "FAIL: plugin.json not found at ${DEFAULT_BRANCH} branch (HTTP $HTTP_CODE)"
+              if ! MANIFEST=$(curl -sf \
+                "https://raw.githubusercontent.com/${REPO_PATH}/${TARGET}/.claude-plugin/plugin.json"); then
+                echo "FAIL: plugin.json not found at ${TARGET}"
                 exit 1
               fi
-              echo "  plugin.json: OK"
+              echo "  plugin.json at ${TARGET}: OK"
+
+              # An unpinned entry floats with the default branch, so its version is
+              # display metadata and will drift by design. A pinned one must match.
+              if [ -n "$SOURCE_REF" ] && [ -n "$VERSION" ]; then
+                UPSTREAM=$(echo "$MANIFEST" | jq -r '.version // empty')
+
+                if [ "$UPSTREAM" != "$VERSION" ]; then
+                  echo "FAIL: entry declares $VERSION but ${TARGET} ships ${UPSTREAM:-no version}"
+                  exit 1
+                fi
+                echo "  version $VERSION matches ${TARGET}: OK"
+              fi
             fi
           done
