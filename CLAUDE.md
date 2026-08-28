@@ -4,14 +4,14 @@
 
 **Claude Code Plugin Marketplace**
 
-A static plugin registry for Claude Code. Plugin authors submit PRs with their plugin metadata; CI validates entries; a single JSON index file is hosted at a raw GitHub URL. Users add the marketplace source with `claude plugin marketplace add` and install plugins with `claude plugin install <name>`.
+A static plugin registry for coding-agent hosts: Claude Code, Codex, Cursor, Grok Build and GitHub Copilot CLI. Plugin authors submit PRs with their plugin metadata; CI validates entries; one JSON index file per host is hosted at a raw GitHub URL. Users add the marketplace source with `<host> plugin marketplace add` and install plugins with `<host> plugin install <name>`.
 
-**Core Value:** Plugins are discoverable and installable via Claude Code CLI commands — no manual cloning, config editing, or guessing.
+**Core Value:** Plugins are discoverable and installable via each host's CLI commands — no manual cloning, config editing, or guessing.
 
 ### Constraints
 
 - **Hosting**: Raw GitHub URL — zero infrastructure, just reference the main branch file
-- **Index format**: Single JSON file — one HTTP fetch gets the full catalog
+- **Index format**: One JSON file per host, each in that host's native format — one HTTP fetch gets the full catalog. Entries must be kept in sync across all five
 - **Publishing**: PR-based — authors fork, add entry, open PR against this repo
 - **Namespace**: Djarvur-only initially — single-author curates all entries
 <!-- GSD:project-end -->
@@ -26,11 +26,11 @@ A static plugin registry for Claude Code. Plugin authors submit PRs with their p
 
 | Component         | Choice                            | Version | Rationale                                                                         |
 | ----------------- | --------------------------------- | ------- | --------------------------------------------------------------------------------- |
-| Registry format   | `.claude-plugin/marketplace.json` | —       | Native Claude Code format, zero custom parsing                                    |
+| Registry format   | One index per host: `.claude-plugin/`, `.agents/plugins/`, `.cursor-plugin/`, `.grok-plugin/`, `.github/plugin/` | — | Native format per host, zero custom parsing |
 | Schema validation | AJV                               | 8.20.0  | Validates against published JSON Schema; Zod would require re-implementing schema |
 | CLI validator     | `claude plugin validate .`        | —       | Official tool, checks schema + duplicate names + path traversal                   |
 | CI platform       | GitHub Actions                    | —       | Native to GitHub, PR-based workflow                                               |
-| Testing           | Vitest                            | 4.1.7   | For CI validation tests                                                           |
+| Testing           | Vitest                            | 4.1.11  | For CI validation tests                                                           |
 | Formatting        | Prettier                          | 3.x     | Consistent JSON formatting in CI                                                  |
 | Hosting           | Raw GitHub URL                    | —       | `raw.githubusercontent.com` — zero infrastructure                                 |
 

@@ -56,40 +56,76 @@ jobs:
 
       - name: Verify plugin sources
         run: |
-          MARKETPLACE=".claude-plugin/marketplace.json"
-          PLUGINS=$(jq -c '.plugins[]' "$MARKETPLACE")
+          set -euo pipefail
 
-          echo "$PLUGINS" | while read -r plugin; do
-            NAME=$(echo "$plugin" | jq -r '.name')
-            SOURCE_TYPE=$(echo "$plugin" | jq -r '.source.source // empty')
-            SOURCE_URL=$(echo "$plugin" | jq -r '.source.url // empty')
+          # Hosts disagree on where a plugin keeps its manifest; take the first that exists.
+          MANIFEST_PATHS=".claude-plugin/plugin.json .codex-plugin/plugin.json .grok-plugin/plugin.json .cursor-plugin/plugin.json .plugin/plugin.json"
 
-            if [ "$SOURCE_TYPE" = "url" ] && echo "$SOURCE_URL" | grep -q "github.com"; then
+          for MARKETPLACE in \
+            .claude-plugin/marketplace.json \
+            .agents/plugins/marketplace.json \
+            .cursor-plugin/marketplace.json \
+            .grok-plugin/marketplace.json \
+            .github/plugin/marketplace.json; do
+
+            echo "== $MARKETPLACE"
+
+            # Fed by process substitution, not a pipe, so a failure exits the step
+            # instead of only the subshell the loop would otherwise run in.
+            while read -r plugin; do
+              NAME=$(echo "$plugin" | jq -r '.name')
+              # 'objects' keeps string sources from erroring out on an index
+              SOURCE_TYPE=$(echo "$plugin" | jq -r '(.source | objects | .source) // empty')
+              SOURCE_URL=$(echo "$plugin" | jq -r '(.source | objects | .url) // empty')
+              PIN=$(echo "$plugin" | jq -r '(.source | objects | (.ref // .sha)) // empty')
+              VERSION=$(echo "$plugin" | jq -r '.version // empty')
+
+              # A string source is a path inside this repository, not a remote to verify
+              [ "$SOURCE_TYPE" = "url" ] || continue
+              echo "$SOURCE_URL" | grep -q "github.com" || continue
+
               REPO_PATH=$(echo "$SOURCE_URL" | sed 's|.*github.com/||; s|\.git$||')
-              echo "Verifying plugin '$NAME' from $REPO_PATH..."
+              echo "  Verifying '$NAME' from $REPO_PATH..."
 
               if ! git ls-remote "https://github.com/${REPO_PATH}.git" HEAD >/dev/null 2>&1; then
-                echo "FAIL: Repository $REPO_PATH not reachable"
+                echo "  FAIL: repository $REPO_PATH not reachable"
                 exit 1
               fi
-              echo "  Repo exists: OK"
 
               # GITHUB_TOKEN is repo-scoped; for public repos, unauthenticated works
               DEFAULT_BRANCH=$(curl -sf "https://api.github.com/repos/$REPO_PATH" | jq -r '.default_branch')
-
-              if [ -z "$DEFAULT_BRANCH" ]; then
-                echo "FAIL: Could not determine default branch for $REPO_PATH"
+              if [ -z "$DEFAULT_BRANCH" ] || [ "$DEFAULT_BRANCH" = "null" ]; then
+                echo "  FAIL: could not determine default branch for $REPO_PATH"
                 exit 1
               fi
-              echo "  Default branch: $DEFAULT_BRANCH"
 
-              HTTP_CODE=$(curl -sf -o /dev/null -w "%{http_code}" \
-                "https://raw.githubusercontent.com/${REPO_PATH}/${DEFAULT_BRANCH}/.claude-plugin/plugin.json")
+              # Check what the entry actually resolves to, not just the default branch
+              TARGET="${PIN:-$DEFAULT_BRANCH}"
+              MANIFEST=""
 
-              if [ "$HTTP_CODE" != "200" ]; then
-                echo "FAIL: plugin.json not found at ${DEFAULT_BRANCH} branch (HTTP $HTTP_CODE)"
+              for P in $MANIFEST_PATHS; do
+                if MANIFEST=$(curl -sf "https://raw.githubusercontent.com/${REPO_PATH}/${TARGET}/${P}"); then
+                  echo "  ${P} at ${TARGET}: OK"
+                  break
+                fi
+                MANIFEST=""
+              done
+
+              if [ -z "$MANIFEST" ]; then
+                echo "  FAIL: no plugin manifest found at ${TARGET}"
                 exit 1
               fi
-              echo "  plugin.json: OK"
-            fi
+
+              # An unpinned entry floats with the default branch, so its version is
+              # display metadata and drifts by design. A pinned one must match.
+              if [ -n "$PIN" ] && [ -n "$VERSION" ]; then
+                UPSTREAM=$(echo "$MANIFEST" | jq -r '.version // empty')
+
+                if [ "$UPSTREAM" != "$VERSION" ]; then
+                  echo "  FAIL: entry declares $VERSION but ${TARGET} ships ${UPSTREAM:-no version}"
+                  exit 1
+                fi
+                echo "  version $VERSION matches ${TARGET}: OK"
+              fi
+            done < <(jq -c '.plugins[]' "$MARKETPLACE")
           done
