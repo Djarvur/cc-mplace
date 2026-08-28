@@ -57,7 +57,7 @@ This marketplace ships one index per host (see the paths listed above). The `go-
 | Grok Build | `.grok-plugin/plugin.json` |
 | Generic / OpenCode | `.plugin/plugin.json` |
 
-Only the Claude Code index pins a release tag (`ref: v0.12.0`). The Codex, Cursor, Grok Build and Copilot indexes carry no `ref`, so they resolve the default branch of `Djarvur/go-ultimate` — their `version` field is metadata for display, not a pin. To pin a specific version in those harnesses, check out the matching tag (`v0.12.0`) rather than `main`.
+Each index pins with whatever mechanism its host supports. Claude Code and Codex pin the release tag (`"ref": "v0.12.0"`); Grok Build pins the full commit SHA that tag points at, which is the form its docs prescribe. The Cursor and Copilot indexes carry no pin and resolve the default branch of `Djarvur/go-ultimate`, so there their `version` field is metadata for display. To pin a version by hand in those two, check out the matching tag (`v0.12.0`) rather than `main`.
 
 ## Adding a Plugin
 

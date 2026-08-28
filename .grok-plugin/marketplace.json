@@ -25,7 +25,11 @@
         "name": "Djarvur"
       },
       "category": "languages",
-      "source": "https://github.com/Djarvur/go-ultimate.git"
+      "source": {
+        "source": "url",
+        "url": "https://github.com/Djarvur/go-ultimate.git",
+        "sha": "f7961ca3fa62e9cb5a907a41361f03f31c1f21a3"
+      }
     }
   ]
 }
