@@ -13,7 +13,11 @@
         "name": "Djarvur"
       },
       "category": "search",
-      "source": "https://github.com/Djarvur/cc-websearch.git"
+      "source": {
+        "source": "url",
+        "url": "https://github.com/Djarvur/cc-websearch.git",
+        "sha": "02d4993492ed0a957e7908bfff61fef245d36583"
+      }
     },
     {
       "name": "go-ultimate",
