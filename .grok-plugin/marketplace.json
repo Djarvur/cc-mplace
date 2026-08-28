@@ -1,5 +1,4 @@
 {
-  "$schema": "https://json.schemastore.org/grok-marketplace.json",
   "name": "djarvur-plugin-marketplace",
   "owner": {
     "name": "Djarvur"
