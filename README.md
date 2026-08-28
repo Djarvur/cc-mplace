@@ -47,7 +47,7 @@ claude plugin list
 
 ## Multi-harness install
 
-This marketplace is served in the [Claude Code](https://code.claude.com) format. The `go-ultimate` plugin ships first-party manifests for several other agents and is installed from its own repository, pinned to the same release tag (`v0.10.0`):
+This marketplace ships one index per host (see the paths listed above). The `go-ultimate` plugin ships first-party manifests for several other agents and is installed from its own repository:
 
 | Agent | Manifest in `Djarvur/go-ultimate` |
 | ----- | --------------------------------- |
@@ -57,7 +57,7 @@ This marketplace is served in the [Claude Code](https://code.claude.com) format.
 | Grok Build | `.grok-plugin/plugin.json` |
 | Generic / OpenCode | `.plugin/plugin.json` |
 
-To pin a specific version in any of these harnesses, check out the matching tag (`v0.10.0`) rather than `main`.
+Only the Claude Code index pins a release tag (`ref: v0.12.0`). The Codex, Cursor, Grok Build and Copilot indexes carry no `ref`, so they resolve the default branch of `Djarvur/go-ultimate` — their `version` field is metadata for display, not a pin. To pin a specific version in those harnesses, check out the matching tag (`v0.12.0`) rather than `main`.
 
 ## Adding a Plugin
 
