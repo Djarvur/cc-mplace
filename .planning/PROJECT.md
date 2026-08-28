@@ -2,11 +2,11 @@
 
 ## What This Is
 
-A static plugin registry for Claude Code, live at `Djarvur/cc-mplace`. Plugin authors submit PRs with their plugin metadata; CI validates entries via a four-step pipeline; a single JSON index file is hosted at a raw GitHub URL. Users add the marketplace source with `claude plugin marketplace add` and install plugins with `claude plugin install <name>`. Dependabot keeps dependencies current with CI-gated auto-merge.
+A static plugin registry for coding-agent hosts, live at `Djarvur/cc-mplace`. Supported hosts: Claude Code, Codex, Cursor, Grok Build, GitHub Copilot CLI. Plugin authors submit PRs with their plugin metadata; CI validates entries via a four-step pipeline; one JSON index file per host is hosted at a raw GitHub URL. Users add the marketplace source with `<host> plugin marketplace add` and install plugins with `<host> plugin install <name>`. Dependabot keeps dependencies current with CI-gated auto-merge.
 
 ## Core Value
 
-Plugins are discoverable and installable via Claude Code CLI commands — no manual cloning, config editing, or guessing.
+Plugins are discoverable and installable via each host's CLI commands — no manual cloning, config editing, or guessing.
 
 ## Requirements
 
@@ -53,7 +53,7 @@ CI pipeline: Prettier check → Vitest → `claude plugin validate --strict` →
 ## Constraints
 
 - **Hosting**: Raw GitHub URL — zero infrastructure, just reference the main branch file
-- **Index format**: Single JSON file — one HTTP fetch gets the full catalog
+- **Index format**: One JSON file per host, each in that host's native format — one HTTP fetch gets the full catalog. Entries must be kept in sync across all five
 - **Publishing**: PR-based — authors fork, add entry, open PR against this repo
 - **Namespace**: Djarvur-only initially — single-author curates all entries
 

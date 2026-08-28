@@ -11,11 +11,11 @@ Claude Code already has a native marketplace system. The registry format is `.cl
 
 | Component         | Choice                            | Version | Rationale                                                                         |
 | ----------------- | --------------------------------- | ------- | --------------------------------------------------------------------------------- |
-| Registry format   | `.claude-plugin/marketplace.json` | —       | Native Claude Code format, zero custom parsing                                    |
+| Registry format   | One index per host: `.claude-plugin/`, `.agents/plugins/`, `.cursor-plugin/`, `.grok-plugin/`, `.github/plugin/` | — | Native format per host, zero custom parsing |
 | Schema validation | AJV                               | 8.20.0  | Validates against published JSON Schema; Zod would require re-implementing schema |
 | CLI validator     | `claude plugin validate .`        | —       | Official tool, checks schema + duplicate names + path traversal                   |
 | CI platform       | GitHub Actions                    | —       | Native to GitHub, PR-based workflow                                               |
-| Testing           | Vitest                            | 4.1.7   | For CI validation tests                                                           |
+| Testing           | Vitest                            | 4.1.11  | For CI validation tests                                                           |
 | Formatting        | Prettier                          | 3.x     | Consistent JSON formatting in CI                                                  |
 | Hosting           | Raw GitHub URL                    | —       | `raw.githubusercontent.com` — zero infrastructure                                 |
 
