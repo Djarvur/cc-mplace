@@ -71,4 +71,32 @@ describe("host indexes", () => {
       }
     }
   });
+
+  // Grok pins by commit SHA rather than by ref, so a SHA cannot be checked
+  // against the declared version offline. What it must do is agree with every
+  // other index pinning the same plugin.
+  it("a pinned sha is a full commit sha and agrees across indexes", () => {
+    const seen = new Map();
+
+    for (const [host, path] of Object.entries(HOST_INDEXES)) {
+      for (const plugin of indexes[host].plugins) {
+        const sha = plugin.source?.sha;
+        if (!sha) continue;
+
+        expect(sha, `${plugin.name}: ${path} pins a partial sha`).toMatch(
+          /^[0-9a-f]{40}$/
+        );
+
+        const previous = seen.get(plugin.name);
+        if (previous) {
+          expect(
+            sha,
+            `${plugin.name}: ${path} pins ${sha}, ${previous.path} pins ${previous.sha}`
+          ).toBe(previous.sha);
+        } else {
+          seen.set(plugin.name, { sha, path });
+        }
+      }
+    }
+  });
 });

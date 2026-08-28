@@ -66,18 +66,35 @@ jobs:
               continue
             fi
 
-            echo "$NAME: $CURRENT -> $LATEST"
+            # Annotated tags need dereferencing to reach the commit; lightweight
+            # ones have no ^{} entry, so fall back to the tag ref itself.
+            SHA=$(git ls-remote "$URL" "refs/tags/v${LATEST}^{}" | cut -f1)
+            if [ -z "$SHA" ]; then
+              SHA=$(git ls-remote "$URL" "refs/tags/v${LATEST}" | cut -f1)
+            fi
+
+            if ! echo "$SHA" | grep -qE '^[0-9a-f]{40}$'; then
+              echo "FAIL: could not resolve v$LATEST of $NAME to a commit sha"
+              exit 1
+            fi
+
+            echo "$NAME: $CURRENT -> $LATEST ($SHA)"
             SUMMARY="${SUMMARY}- \`${NAME}\`: ${CURRENT} -> ${LATEST}"$'\n'
 
-            # Only entries with an object-shaped source carry a ref; the rest
-            # resolve the default branch and take the version bump alone.
+            # Hosts pin differently: Claude Code and Codex by ref, Grok by commit
+            # sha. Update whichever the entry already carries, and never add one
+            # to an index whose format has no place for it.
             for F in "${INDEXES[@]}"; do
-              jq --arg n "$NAME" --arg v "$LATEST" '
+              jq --arg n "$NAME" --arg v "$LATEST" --arg sha "$SHA" '
                 (.plugins[] | select(.name == $n) | .version) = $v
                 | (.plugins[] | select(.name == $n
                                        and (.source | type) == "object"
                                        and (.source | has("ref")))
                    | .source.ref) = "v" + $v
+                | (.plugins[] | select(.name == $n
+                                       and (.source | type) == "object"
+                                       and (.source | has("sha")))
+                   | .source.sha) = $sha
               ' "$F" > "$F.tmp" && mv "$F.tmp" "$F"
             done
           done
