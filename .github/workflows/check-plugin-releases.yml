@@ -33,7 +33,6 @@ jobs:
           INDEXES=(
             .claude-plugin/marketplace.json
             .agents/plugins/marketplace.json
-            .cursor-plugin/marketplace.json
             .grok-plugin/marketplace.json
             .github/plugin/marketplace.json
           )
