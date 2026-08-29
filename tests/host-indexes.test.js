@@ -77,6 +77,29 @@ describe("host indexes", () => {
     }
   });
 
+  // The marketplace's own version, not a plugin's. Only the formats with a
+  // place for it carry it; the ones that do must not disagree, which is the
+  // same drift that left this field reading 0.4.1 -- a go-ultimate version --
+  // in the Codex index.
+  it("indexes declaring a marketplace version agree on it", () => {
+    const declared = Object.entries(HOST_INDEXES)
+      .map(([host, path]) => [path, indexes[host].metadata?.version])
+      .filter(([, version]) => version);
+
+    expect(
+      declared.length,
+      "no index declares a marketplace version"
+    ).toBeGreaterThan(0);
+
+    const [referencePath, expected] = declared[0];
+    for (const [path, version] of declared.slice(1)) {
+      expect(
+        version,
+        `${path} declares marketplace version ${version}, ${referencePath} declares ${expected}`
+      ).toBe(expected);
+    }
+  });
+
   // Grok pins by commit SHA rather than by ref, so a SHA cannot be checked
   // against the declared version offline. What it must do is agree with every
   // other index pinning the same plugin.

@@ -5,6 +5,9 @@
   "owner": {
     "name": "Djarvur"
   },
+  "metadata": {
+    "version": "1.2.0"
+  },
   "plugins": [
     {
       "name": "cc-websearch",
