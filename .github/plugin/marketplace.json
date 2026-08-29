@@ -14,7 +14,11 @@
         "url": "https://github.com/Djarvur"
       },
       "category": "search",
-      "source": "https://github.com/Djarvur/cc-websearch.git"
+      "source": {
+        "source": "url",
+        "url": "https://github.com/Djarvur/cc-websearch.git",
+        "ref": "v1.2.4"
+      }
     },
     {
       "name": "go-ultimate",
@@ -26,7 +30,11 @@
         "url": "https://github.com/Djarvur"
       },
       "category": "languages",
-      "source": "https://github.com/Djarvur/go-ultimate.git"
+      "source": {
+        "source": "url",
+        "url": "https://github.com/Djarvur/go-ultimate.git",
+        "ref": "v0.12.0"
+      }
     }
   ]
 }

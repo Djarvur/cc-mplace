@@ -72,7 +72,7 @@ This marketplace ships one index per host (see the paths listed above). The `go-
 | Grok Build | `.grok-plugin/plugin.json` |
 | Generic / OpenCode | `.plugin/plugin.json` |
 
-Every entry here is pinned to a release, with whatever mechanism its host supports. Claude Code and Codex pin the release tag (`"ref": "v0.12.0"`); Grok Build pins the full commit SHA that tag points at, which is the form its docs prescribe. The Copilot index carries no pin and resolves the plugin's default branch, so there the `version` field is metadata for display rather than a guarantee; to pin a version by hand, check out the matching tag. Cursor pins outside the index entirely, with `--git-ref` at the moment the plugin repository is added.
+Every entry here is pinned to a release, with whatever mechanism its host supports. Claude Code, Codex and GitHub Copilot CLI pin the release tag (`"ref": "v0.12.0"`); Grok Build pins the full commit SHA that tag points at, which is the form its docs prescribe. Cursor pins outside the index entirely, with `--git-ref` at the moment the plugin repository is added.
 
 ## Adding a Plugin
 
