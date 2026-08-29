@@ -10,10 +10,15 @@ const __dirname = dirname(__filename);
 // one index but not the others silently ships a stale version to those hosts,
 // which is how go-ultimate ended up at 0.10.0 for Claude Code and 0.4.1
 // everywhere else.
+//
+// Cursor is deliberately absent. Its format resolves an entry's `source` as a
+// directory path inside the marketplace repository, so an entry pointing at a
+// plugin's own repository never resolves: the CLI reports "No installable
+// plugins found" and registers nothing. Cursor users add the plugin repository
+// itself as a marketplace instead — see the README.
 const HOST_INDEXES = {
   "claude-code": ".claude-plugin/marketplace.json",
   codex: ".agents/plugins/marketplace.json",
-  cursor: ".cursor-plugin/marketplace.json",
   grok: ".grok-plugin/marketplace.json",
   copilot: ".github/plugin/marketplace.json",
 };

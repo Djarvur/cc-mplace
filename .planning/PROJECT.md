@@ -2,7 +2,7 @@
 
 ## What This Is
 
-A static plugin registry for coding-agent hosts, live at `Djarvur/cc-mplace`. Supported hosts: Claude Code, Codex, Cursor, Grok Build, GitHub Copilot CLI. Plugin authors submit PRs with their plugin metadata; CI validates entries via a four-step pipeline; one JSON index file per host is hosted at a raw GitHub URL. Users add the marketplace source with `<host> plugin marketplace add` and install plugins with `<host> plugin install <name>`. Dependabot keeps dependencies current with CI-gated auto-merge.
+A static plugin registry for coding-agent hosts, live at `Djarvur/cc-mplace`. Supported hosts: Claude Code, Codex, Grok Build, GitHub Copilot CLI. Plugin authors submit PRs with their plugin metadata; CI validates entries via a four-step pipeline; one JSON index file per host is hosted at a raw GitHub URL. Users add the marketplace source with `<host> plugin marketplace add` and install plugins with `<host> plugin install <name>`. Cursor is not served from here: its entries resolve `source` as a path inside the marketplace repository, so plugins are added from their own repositories instead. Dependabot keeps dependencies current with CI-gated auto-merge.
 
 ## Core Value
 
@@ -53,7 +53,7 @@ CI pipeline: Prettier check → Vitest → `claude plugin validate --strict` →
 ## Constraints
 
 - **Hosting**: Raw GitHub URL — zero infrastructure, just reference the main branch file
-- **Index format**: One JSON file per host, each in that host's native format — one HTTP fetch gets the full catalog. Entries must be kept in sync across all five
+- **Index format**: One JSON file per host, each in that host's native format — one HTTP fetch gets the full catalog. Entries must be kept in sync across all four
 - **Publishing**: PR-based — authors fork, add entry, open PR against this repo
 - **Namespace**: Djarvur-only initially — single-author curates all entries
 
@@ -73,6 +73,7 @@ CI pipeline: Prettier check → Vitest → `claude plugin validate --strict` →
 | GitHub API default_branch query | Don't assume branch name | ✓ Good |
 | Dependabot + auto-merge workflow | Auto-merge requires workflow (not configurable in dependabot.yml) | ✓ Good |
 | Branch protection on main | Required for safe auto-merge (PRs wait for CI) | ✓ Good |
+| Drop the Cursor index, install from the plugin's own repository | A Cursor entry's `source` is a path inside the marketplace repository, so an entry naming an external repository never resolves; vendoring plugins here would cost a sync step per release | ✓ Good |
 
 ## Evolution
 
