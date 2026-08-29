@@ -17,7 +17,8 @@
       "category": "search",
       "source": {
         "source": "url",
-        "url": "https://github.com/Djarvur/cc-websearch.git"
+        "url": "https://github.com/Djarvur/cc-websearch.git",
+        "ref": "v1.2.4"
       }
     },
     {
