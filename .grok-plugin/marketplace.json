@@ -22,8 +22,8 @@
     {
       "name": "go-ultimate",
       "displayName": "Go Ultimate",
-      "version": "0.14.0",
-      "description": "Opinionated Go development skill — architecture, conventions, production readiness, repo/CI hygiene, review, MCP/agent patterns",
+      "version": "0.15.0",
+      "description": "Opinionated Go development skill — architecture, conventions, production readiness, repo/CI hygiene, review, and MCP/agent patterns — plus six language-agnostic companion skills: ponytail minimal-change mode, ponytail-review, ponytail-audit, pr-simplify, test-audit, technical-documentation.",
       "author": {
         "name": "Djarvur"
       },
@@ -31,7 +31,7 @@
       "source": {
         "source": "url",
         "url": "https://github.com/Djarvur/go-ultimate.git",
-        "sha": "36f9071d5289f8e983177958002bf5038f2d5d3d"
+        "sha": "3ffa8366b7740b974705e2ab4ff67987984b1cf3"
       }
     }
   ]

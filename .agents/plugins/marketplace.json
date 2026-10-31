@@ -5,7 +5,7 @@
   },
   "metadata": {
     "description": "Curated plugins for coding-agent hosts.",
-    "version": "1.3.1"
+    "version": "1.3.2"
   },
   "plugins": [
     {
@@ -29,8 +29,8 @@
     },
     {
       "name": "go-ultimate",
-      "description": "Opinionated Go development skill — architecture, conventions, production readiness, repo/CI hygiene, review, MCP/agent patterns",
-      "version": "0.14.0",
+      "description": "Opinionated Go development skill — architecture, conventions, production readiness, repo/CI hygiene, review, and MCP/agent patterns — plus six language-agnostic companion skills: ponytail minimal-change mode, ponytail-review, ponytail-audit, pr-simplify, test-audit, technical-documentation.",
+      "version": "0.15.0",
       "author": {
         "name": "Djarvur",
         "url": "https://github.com/Djarvur"
@@ -38,7 +38,7 @@
       "source": {
         "source": "url",
         "url": "https://github.com/Djarvur/go-ultimate.git",
-        "ref": "v0.14.0"
+        "ref": "v0.15.0"
       },
       "category": "languages",
       "policy": {
