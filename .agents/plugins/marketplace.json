@@ -5,13 +5,13 @@
   },
   "metadata": {
     "description": "Curated plugins for coding-agent hosts.",
-    "version": "1.2.0"
+    "version": "1.3.0"
   },
   "plugins": [
     {
       "name": "cc-websearch",
       "description": "DDG-powered WebSearch and WebFetch replacement",
-      "version": "1.2.4",
+      "version": "1.2.5",
       "author": {
         "name": "Djarvur",
         "url": "https://github.com/Djarvur"
@@ -19,7 +19,7 @@
       "source": {
         "source": "url",
         "url": "https://github.com/Djarvur/cc-websearch.git",
-        "ref": "v1.2.4"
+        "ref": "v1.2.5"
       },
       "category": "search",
       "policy": {
@@ -30,7 +30,7 @@
     {
       "name": "go-ultimate",
       "description": "Opinionated Go development skill — architecture, conventions, production readiness, repo/CI hygiene, review, MCP/agent patterns",
-      "version": "0.12.0",
+      "version": "0.14.0",
       "author": {
         "name": "Djarvur",
         "url": "https://github.com/Djarvur"
@@ -38,9 +38,49 @@
       "source": {
         "source": "url",
         "url": "https://github.com/Djarvur/go-ultimate.git",
-        "ref": "v0.12.0"
+        "ref": "v0.14.0"
       },
       "category": "languages",
+      "policy": {
+        "installation": "auto",
+        "authentication": "none"
+      }
+    },
+    {
+      "name": "ponytail",
+      "displayName": "Ponytail",
+      "version": "0.1.0",
+      "description": "Lazy senior dev mode: the smallest change that fully solves the task, plus a structured change review. Vendored from DietrichGebert/ponytail (MIT).",
+      "author": {
+        "name": "Djarvur",
+        "url": "https://github.com/Djarvur"
+      },
+      "category": "productivity",
+      "source": {
+        "source": "url",
+        "url": "https://github.com/Djarvur/ponytail.git",
+        "ref": "v0.1.0"
+      },
+      "policy": {
+        "installation": "auto",
+        "authentication": "none"
+      }
+    },
+    {
+      "name": "test-audit",
+      "displayName": "Test Audit",
+      "version": "0.1.0",
+      "description": "Gate every new test on protected behavior and credible regressions; audit test surfaces for duplicate, implementation-coupled or low-value proof. Vendored from openclaw/openclaw (MIT).",
+      "author": {
+        "name": "Djarvur",
+        "url": "https://github.com/Djarvur"
+      },
+      "category": "testing",
+      "source": {
+        "source": "url",
+        "url": "https://github.com/Djarvur/test-audit.git",
+        "ref": "v0.1.0"
+      },
       "policy": {
         "installation": "auto",
         "authentication": "none"

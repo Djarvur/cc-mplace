@@ -7,7 +7,7 @@
     {
       "name": "cc-websearch",
       "displayName": "WebSearch",
-      "version": "1.2.4",
+      "version": "1.2.5",
       "description": "DDG-powered WebSearch and WebFetch replacement",
       "author": {
         "name": "Djarvur"
@@ -16,13 +16,13 @@
       "source": {
         "source": "url",
         "url": "https://github.com/Djarvur/cc-websearch.git",
-        "sha": "02d4993492ed0a957e7908bfff61fef245d36583"
+        "sha": "70de93bd66416b1017a79dbb90b9513222923401"
       }
     },
     {
       "name": "go-ultimate",
       "displayName": "Go Ultimate",
-      "version": "0.12.0",
+      "version": "0.14.0",
       "description": "Opinionated Go development skill — architecture, conventions, production readiness, repo/CI hygiene, review, MCP/agent patterns",
       "author": {
         "name": "Djarvur"
@@ -31,7 +31,47 @@
       "source": {
         "source": "url",
         "url": "https://github.com/Djarvur/go-ultimate.git",
-        "sha": "f7961ca3fa62e9cb5a907a41361f03f31c1f21a3"
+        "sha": "36f9071d5289f8e983177958002bf5038f2d5d3d"
+      }
+    },
+    {
+      "name": "ponytail",
+      "displayName": "Ponytail",
+      "version": "0.1.0",
+      "description": "Lazy senior dev mode: the smallest change that fully solves the task, plus a structured change review. Vendored from DietrichGebert/ponytail (MIT).",
+      "author": {
+        "name": "Djarvur",
+        "url": "https://github.com/Djarvur"
+      },
+      "category": "productivity",
+      "source": {
+        "source": "url",
+        "url": "https://github.com/Djarvur/ponytail.git",
+        "sha": "ae40dea5617c58d5cabadcb5c560198a165a43cb"
+      },
+      "policy": {
+        "installation": "auto",
+        "authentication": "none"
+      }
+    },
+    {
+      "name": "test-audit",
+      "displayName": "Test Audit",
+      "version": "0.1.0",
+      "description": "Gate every new test on protected behavior and credible regressions; audit test surfaces for duplicate, implementation-coupled or low-value proof. Vendored from openclaw/openclaw (MIT).",
+      "author": {
+        "name": "Djarvur",
+        "url": "https://github.com/Djarvur"
+      },
+      "category": "testing",
+      "source": {
+        "source": "url",
+        "url": "https://github.com/Djarvur/test-audit.git",
+        "sha": "337e1099cd13a2136881350e98d6acd571efece0"
+      },
+      "policy": {
+        "installation": "auto",
+        "authentication": "none"
       }
     }
   ]

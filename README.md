@@ -6,7 +6,7 @@ A curated, static plugin registry for coding-agent hosts. Add the marketplace, b
 
 This repository is a plugin marketplace. It hosts a JSON index file per supported host that each host's CLI reads to discover and install plugins. The registry is static -- no backend, no database, no build step. Plugin authors submit entries via pull request.
 
-Supported hosts: Claude Code, Codex, Grok Build, GitHub Copilot CLI. Each reads its native index file at a host-specific path (`.claude-plugin/marketplace.json`, `.agents/plugins/marketplace.json`, `.grok-plugin/marketplace.json`, `.github/plugin/marketplace.json`). Cursor cannot be served from a marketplace like this one — see [Cursor](#cursor).
+Supported hosts: Claude Code, Codex, Grok Build, GitHub Copilot CLI, ZCode. Each reads its native index file at a host-specific path (`.claude-plugin/marketplace.json`, `.agents/plugins/marketplace.json`, `.grok-plugin/marketplace.json`, `.github/plugin/marketplace.json`) — ZCode reads the Claude Code index and manifests directly. Cursor cannot be served from a marketplace like this one — see [Cursor](#cursor). Hermes Agent has no marketplace protocol: install its skills from the plugin repositories directly, see [Hermes Agent](#hermes-agent).
 
 ## Quick Start
 
@@ -18,6 +18,7 @@ Supported hosts: Claude Code, Codex, Grok Build, GitHub Copilot CLI. Each reads 
 | Codex | `codex plugin marketplace add Djarvur/cc-mplace` |
 | Grok Build | (install plugins directly, e.g. `grok plugin install 'Djarvur/cc-mplace#<plugin>' --trust`) |
 | GitHub Copilot CLI | `copilot plugin marketplace add Djarvur/cc-mplace` |
+| ZCode | `zcode plugins marketplace add Djarvur/cc-mplace` |
 
 Cursor is not in that table on purpose: it installs from a plugin's own repository, not from here. See [Cursor](#cursor).
 
@@ -59,6 +60,8 @@ Why not from here: a Cursor marketplace entry resolves its `source` as a directo
 | ------------ | ---------------------------------------------------------------------------------------- |
 | cc-websearch | DDG-powered WebSearch and WebFetch replacement for Claude Code                           |
 | go-ultimate  | Opinionated Go development skill — architecture, conventions, review, MCP/agent patterns |
+| ponytail     | Lazy senior dev mode: smallest change that solves the task, + structured review (vendored, MIT) |
+| test-audit   | Test authoring gate + test-surface audit playbook (vendored from openclaw, MIT)          |
 
 ## Multi-harness install
 
@@ -73,6 +76,31 @@ This marketplace ships one index per host (see the paths listed above). The `go-
 | Generic / OpenCode | `.plugin/plugin.json` |
 
 Every entry here is pinned to a release, with whatever mechanism its host supports. Claude Code, Codex and GitHub Copilot CLI pin the release tag (`"ref": "v0.12.0"`); Grok Build pins the full commit SHA that tag points at, which is the form its docs prescribe. Cursor pins outside the index entirely, with `--git-ref` at the moment the plugin repository is added.
+
+### ZCode
+
+ZCode shares Claude Code's plugin infrastructure: it reads the same marketplace index (`.claude-plugin/marketplace.json`) and resolves plugin manifests at `.zcode-plugin/plugin.json` first, then `.claude-plugin/plugin.json`. A plugin that ships a Claude manifest installs with no extra work:
+
+```bash
+zcode plugins marketplace add Djarvur/cc-mplace
+zcode plugins install go-ultimate
+```
+
+### Hermes Agent
+
+Hermes Agent has no marketplace protocol, so it installs skills from the plugin repositories directly:
+
+```bash
+hermes skills install https://raw.githubusercontent.com/Djarvur/go-ultimate/v0.13.0/skills/go-ultimate/SKILL.md
+```
+
+or add a plugin repository as a skill tap (browsable + updatable):
+
+```bash
+hermes skills tap add Djarvur/go-ultimate
+hermes skills tap add Djarvur/ponytail
+hermes skills tap add Djarvur/test-audit
+```
 
 ## Adding a Plugin
 
