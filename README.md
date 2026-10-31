@@ -59,9 +59,7 @@ Why not from here: a Cursor marketplace entry resolves its `source` as a directo
 | Plugin       | Description                                                                              |
 | ------------ | ---------------------------------------------------------------------------------------- |
 | cc-websearch | DDG-powered WebSearch and WebFetch replacement for Claude Code                           |
-| go-ultimate  | Opinionated Go development skill — architecture, conventions, review, MCP/agent patterns |
-| ponytail     | Lazy senior dev mode: smallest change that solves the task, + structured review (vendored, MIT) |
-| test-audit   | Test authoring gate + test-surface audit playbook (vendored from openclaw, MIT)          |
+| go-ultimate  | Opinionated Go development skill — architecture, conventions, review, MCP/agent patterns — plus the vendored community skills: ponytail (minimal-change mode), ponytail-review, ponytail-audit, pr-simplify, test-audit, technical-documentation. See its README. |
 
 ## Multi-harness install
 
@@ -98,8 +96,6 @@ or add a plugin repository as a skill tap (browsable + updatable):
 
 ```bash
 hermes skills tap add Djarvur/go-ultimate
-hermes skills tap add Djarvur/ponytail
-hermes skills tap add Djarvur/test-audit
 ```
 
 ## Adding a Plugin
