@@ -33,46 +33,6 @@
         "url": "https://github.com/Djarvur/go-ultimate.git",
         "sha": "36f9071d5289f8e983177958002bf5038f2d5d3d"
       }
-    },
-    {
-      "name": "ponytail",
-      "displayName": "Ponytail",
-      "version": "0.1.0",
-      "description": "Lazy senior dev mode: the smallest change that fully solves the task, plus a structured change review. Vendored from DietrichGebert/ponytail (MIT).",
-      "author": {
-        "name": "Djarvur",
-        "url": "https://github.com/Djarvur"
-      },
-      "category": "productivity",
-      "source": {
-        "source": "url",
-        "url": "https://github.com/Djarvur/ponytail.git",
-        "sha": "ae40dea5617c58d5cabadcb5c560198a165a43cb"
-      },
-      "policy": {
-        "installation": "auto",
-        "authentication": "none"
-      }
-    },
-    {
-      "name": "test-audit",
-      "displayName": "Test Audit",
-      "version": "0.1.0",
-      "description": "Gate every new test on protected behavior and credible regressions; audit test surfaces for duplicate, implementation-coupled or low-value proof. Vendored from openclaw/openclaw (MIT).",
-      "author": {
-        "name": "Djarvur",
-        "url": "https://github.com/Djarvur"
-      },
-      "category": "testing",
-      "source": {
-        "source": "url",
-        "url": "https://github.com/Djarvur/test-audit.git",
-        "sha": "337e1099cd13a2136881350e98d6acd571efece0"
-      },
-      "policy": {
-        "installation": "auto",
-        "authentication": "none"
-      }
     }
   ]
 }
