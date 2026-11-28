@@ -33,6 +33,21 @@
         "url": "https://github.com/Djarvur/go-ultimate.git",
         "sha": "3ffa8366b7740b974705e2ab4ff67987984b1cf3"
       }
+    },
+    {
+      "name": "100x-engineer-skill",
+      "displayName": "100x Engineer Skill",
+      "version": "0.1.2",
+      "description": "Plan-first skills that verify agent work with tests and formal checks before calling it done. Skills for Claude Code, Cursor and Codex, plus a standalone prove-it skill.",
+      "author": {
+        "name": "DeadInternetStudios"
+      },
+      "category": "workflow",
+      "source": {
+        "source": "url",
+        "url": "https://github.com/DeadInternetStudios/100x-engineer-skill.git",
+        "sha": "db02a0f8886351f0966e69018f2a276c4c498a12"
+      }
     }
   ]
 }
